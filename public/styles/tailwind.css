@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components; 
+@tailwind utilities;
+
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans');
+
+@supports (-webkit-touch-callout: none) {
+    /* CSS specific to iOS devices */ 
+  .vh-safari {
+  height: calc(100vh - 60px);
+  }
+}
+
+
+
+@layer base {}
