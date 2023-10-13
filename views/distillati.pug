@@ -23,9 +23,9 @@ block content
                 p(class="font-nunito text-left text-marrone-400 font-extralight text-2xl lg:text-4xl") < Indietro
         section(class="w-full grid-rows-6 py-9")
             div(class="w-full py-3")
-                div(class="w-full flex items-center h-12 border-marrone-100 border-b")
-                    figure(class="flex-none pr-4")!=result.pagina.icon
-                    div(class="grow")
+                div(class="w-full grid grid-cols-12 gap-0 h-12 border-marrone-100 border-b")
+                    figure(class="col-span-2 pr-2")!=result.pagina.icon
+                    div(class="col-span-10")
                         p(class="font-nunito text-left text-marrone-400 font-extralight text-2xl lg:text-4xl")=result.pagina.label
             +menu_dolci(result.menu)
             
