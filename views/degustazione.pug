@@ -1,0 +1,34 @@
+extends menu.pug
+
+mixin menu_degustazione(array)
+    -for(let index=0;index<array.length;index++){
+        article(class="w-full py-3")
+            header(class="w-full pb-4")
+                h1(class="font-nunito text-left text-arancio font-extralight text-2xl lg:text-4xl")=array[index].nome_menu
+            div(class="w-full flex items-center h-8")  
+                div(class="grow")
+                    p(class="font-nunito text-left text-marrone-400 font-extralight text-sm lg:text-base")=array[index].descrizione_menu
+                div(class="flex-none")
+                    p(class="font-nunito text-left text-nero font-semibold text-base lg:text-lg")=array[index].prezzo_menu+'€'
+            
+            -for(let j=0;j<array[index].item.length;j++){
+                div(class="w-full pl-2 py-4")
+                    h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl")=array[index].item[j].piatto
+                    p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base")=array[index].item[j].descrizione
+            -}
+            
+    -}
+
+block content
+    main(class="w-full px-4 md:w-[48rem] lg:w-[56rem] md:mx-auto")
+        nav(class="w-full grid-rows-6 pt-4")
+            a(href="/" class="")
+                p(class="font-nunito text-left text-marrone-400 font-extralight text-2xl lg:text-4xl") < Indietro
+        section(class="w-full grid-rows-6 py-9")
+            div(class="w-full py-3")
+                div(class="w-full flex items-center h-12 border-marrone-100 border-b")
+                    figure(class="flex-none pr-4")!=result.pagina.icon
+                    div(class="grow")
+                        p(class="font-nunito text-left text-marrone-400 font-extralight text-2xl lg:text-4xl")=result.pagina.label
+            +menu_degustazione(result.menu)
+            

@@ -1,0 +1,20 @@
+extends menu.pug
+
+mixin menu_index(array)
+    -for(let index=0;index<array.length;index++){
+        div(class="w-full py-3")
+            a(href=array[index].link class="")
+                div(class="w-full flex items-center h-12 border-marrone-100 border-b")
+                    figure(class="flex-none pr-4")!=array[index].icon
+                        
+                    div(class="grow")
+                        p(class="font-nunito text-left text-marrone-400 font-extralight text-2xl lg:text-4xl")=array[index].label
+                    div(class="flex-none")
+                        p(class="font-nunito text-left text-marrone-400 font-extralight text-2xl lg:text-4xl") >
+
+    -}
+
+block content
+    main(class="w-full px-4 md:w-[48rem] lg:w-[56rem] md:mx-auto")
+        section(class="w-full grid-rows-6 py-9")
+            +menu_index(result.index)

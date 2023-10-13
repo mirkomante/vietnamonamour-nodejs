@@ -12,6 +12,7 @@ module.exports = {
       'arancio'       : '#EA5810',
       'marrone-400'   : '#4E0F10',
       'marrone-100'   : 'rgba(78,15,16,0.3)',
+      'grigio-200'    : '#8a8a8a',
       'skeleton'      : 'rgba(0,0,0,.1)',
       'error'         : '#adff2f',
       'light-white'   : '#ffffff1a',
