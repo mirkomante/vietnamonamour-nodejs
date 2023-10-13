@@ -4,12 +4,12 @@ mixin menu_index(array)
     -for(let index=0;index<array.length;index++){
         div(class="w-full py-3")
             a(href=array[index].link class="")
-                div(class="w-full flex items-center h-12 border-marrone-100 border-b")
-                    figure(class="flex-none pr-4")!=array[index].icon
+                div(class="w-full grid grid-cols-12 gap-0 items-center h-12 border-marrone-100 border-b")
+                    figure(class=" col-span-2 pr-2")!=array[index].icon
                         
-                    div(class="grow")
+                    div(class="col-span-9")
                         p(class="font-nunito text-left text-marrone-400 font-extralight text-2xl lg:text-4xl")=array[index].label
-                    div(class="flex-none")
+                    div(class="col-span-1")
                         p(class="font-nunito text-left text-marrone-400 font-extralight text-2xl lg:text-4xl") >
 
     -}
