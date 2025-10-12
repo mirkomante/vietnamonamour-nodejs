@@ -6,8 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tailwind:css": "postcss public/styles/tailwind.css -o public/css/style.css --watch",
-    "dev": "nodemon server",
-    "start": "node index.js"
+    "dev": "NODE_ENV=development nodemon index.js",
+    "start": "NODE_ENV=production node index.js",
+    "start:dev": "NODE_ENV=development node index.js",
+    "start:prod": "NODE_ENV=production node index.js",
+    "start:test": "NODE_ENV=test node index.js"
   },
   "author": "Mirko Mantellato",
   "license": "ISC",

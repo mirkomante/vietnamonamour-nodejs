@@ -1,9 +1,16 @@
 const dotenv        = require('dotenv');
 const axios         = require('axios');
+const config        = require('../config');
 
 dotenv.config();
 
-const   file_path   = process.env.FILE_PATH;
+// Determina l'ambiente corrente
+const environment = process.env.NODE_ENV || 'development';
+const currentConfig = config[environment];
+
+const   file_path       = currentConfig.FILE_PATH,
+        vtn_backend_url = currentConfig.VTN_BACKEND_URL,
+        api_timeout     = currentConfig.API_TIMEOUT;
 
 const   express     = require('express'),
         router      = express.Router();
