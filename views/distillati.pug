@@ -1,19 +1,82 @@
 extends menu.pug
 
-mixin menu_dolci(array)
+mixin menu_distillati(array)
     -for(let index=0;index<array.length;index++){
         article(class="w-full py-3")
             header(class="w-full pb-4")
-                h1(class="font-nunito text-left text-arancio font-extralight text-2xl lg:text-4xl")=array[index].nome_sezione
-            -for(let j=0;j<array[index].item.length;j++){
+                // ✅ Legge direttamente i campi vtn-backend
+                h1(class="font-nunito text-left text-arancio font-extralight text-2xl lg:text-4xl")=array[index].nome || array[index].nome_sezione || array[index].categoria
+                if array[index].descrizione
+                    p(class="font-nunito text-left text-marrone-400 font-light text-sm lg:text-base mt-2")=array[index].descrizione
+            -for(let j=0;j<array[index].piatti.length;j++){
                 
-                div(class="w-full flex items-center pb-2")  
-                    div(class="grow pr-3")
-                        h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl")=array[index].item[j].nome
-                        p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base")=array[index].item[j].caratteristiche+'•'+array[index].item[j].anno+array[index].item[j].cantina+'•'+array[index].item[j].provenienza
-                    div(class="flex-none")
-                        p(class="font-nunito text-left text-nero font-semibold text-base lg:text-lg")=array[index].item[j].prezzo_calice+'€'
+                div(class="w-full pb-4 border-b border-gray-100 last:border-b-0")  
+                    div(class="flex items-start justify-between")
+                        div(class="grow pr-3")
+                            div(class="flex items-start justify-between")
+                                // ✅ Campi vtn-backend diretti
+                                h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl")=array[index].piatti[j].nome || array[index].piatti[j].name
+                                div(class="ml-4 flex flex-col items-end")
+                                    if array[index].piatti[j].disponibile === false
+                                        span(class="text-xs text-orange-500 font-medium bg-orange-100 px-2 py-1 rounded mb-1") Non disponibile
+                                    else if array[index].piatti[j].attivo === false || array[index].piatti[j].nascondi === true
+                                        span(class="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-1 rounded mb-1") Temporaneamente non disponibile
+                                    else if array[index].piatti[j].novita === true
+                                        span(class="text-xs text-green-500 font-medium bg-green-100 px-2 py-1 rounded mb-1") Novità!
+                            p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base mt-1")=array[index].piatti[j].descrizione || array[index].piatti[j].description
+                            
+                            // ✅ Badge per caratteristiche del piatto
+                            div(class="mt-4 mb-3 flex flex-wrap gap-2")
+                                if array[index].piatti[j].glutenFree === true
+                                    span(class="inline-flex items-center rounded-md bg-green-50 px-3 py-1.5 text-xs font-medium text-green-800 ring-1 ring-inset ring-green-600/20") Gluten Free
+                                if array[index].piatti[j].noLatticini === true
+                                    span(class="inline-flex items-center rounded-md bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-800 ring-1 ring-inset ring-blue-600/20") No Latticini
+                                if array[index].piatti[j].vegan === true
+                                    span(class="inline-flex items-center rounded-md bg-purple-50 px-3 py-1.5 text-xs font-medium text-purple-800 ring-1 ring-inset ring-purple-600/20") Vegan
+                            
+                            // ✅ Tutti i nuovi campi vtn-backend
+                            if array[index].piatti[j].allergeni && array[index].piatti[j].allergeni.length > 0
+                                div(class="mt-2")
+                                    span(class="text-xs text-red-500 font-medium") ⚠️ Allergeni: 
+                                    span(class="text-xs text-red-500")=array[index].piatti[j].allergeni.map(a => a.nome).join(', ')
+                            
+                            if array[index].piatti[j].categoria
+                                div(class="mt-1")
+                                    span(class="text-xs text-blue-500 font-medium") 🥃 Categoria: 
+                                    span(class="text-xs text-blue-500")=array[index].piatti[j].categoria
+                            
+                            if array[index].piatti[j].ingredienti && array[index].piatti[j].ingredienti.length > 0
+                                div(class="mt-1")
+                                    span(class="text-xs text-green-500 font-medium") 🥘 Ingredienti: 
+                                    span(class="text-xs text-green-500")=array[index].piatti[j].ingredienti.join(', ')
+                            
+                            if array[index].piatti[j].temperatura_servizio
+                                div(class="mt-1")
+                                    span(class="text-xs text-cyan-500 font-medium") 🌡️ Temperatura: 
+                                    span(class="text-xs text-cyan-500")=array[index].piatti[j].temperatura_servizio
+                            
+                            if array[index].piatti[j].grado_alcolico
+                                div(class="mt-1")
+                                    span(class="text-xs text-amber-500 font-medium") 🍷 Grado: 
+                                    span(class="text-xs text-amber-500")=array[index].piatti[j].grado_alcolico
+                            
+                            if array[index].piatti[j].invecchiamento
+                                div(class="mt-1")
+                                    span(class="text-xs text-indigo-500 font-medium") 🕰️ Invecchiamento: 
+                                    span(class="text-xs text-indigo-500")=array[index].piatti[j].invecchiamento
+                        div(class="flex-none ml-4")
+                            p(class="font-nunito text-left text-nero font-semibold text-base lg:text-lg")=(array[index].piatti[j].prezzo || array[index].piatti[j].price)+'€'
             -}     
+            
+            // ✅ Sezione allergeni del menù (dopo i piatti)
+            if array[index].allergeni && array[index].allergeni.length > 0
+                div(class="w-full pl-2 pt-6 mt-4 border-t border-gray-200")
+                    div(class="flex items-center mb-3")
+                        span(class="text-sm font-medium text-marrone-400") ⚠️ Allergeni presenti nel menù:
+                    div(class="flex flex-wrap gap-2")
+                        -for(let k=0;k<array[index].allergeni.length;k++){
+                            span(class="inline-flex items-center rounded-md bg-yellow-50 px-3 py-1.5 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20")=array[index].allergeni[k].nome
+                        -}
     -}
 
 block content
@@ -27,5 +90,4 @@ block content
                     figure(class="col-span-2 pr-2")!=result.pagina.icon
                     div(class="col-span-10")
                         p(class="font-nunito text-left text-marrone-400 font-extralight text-2xl lg:text-4xl")=result.pagina.label
-            +menu_dolci(result.menu)
-            
+            +menu_distillati(result.menu)

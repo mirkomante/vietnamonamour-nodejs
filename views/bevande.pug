@@ -1,6 +1,6 @@
 extends menu.pug
 
-mixin menu_dolci(array)
+mixin menu_bevande(array)
     -for(let index=0;index<array.length;index++){
         article(class="w-full py-3")
             header(class="w-full pb-4")
@@ -42,7 +42,7 @@ mixin menu_dolci(array)
                             
                             if array[index].piatti[j].categoria
                                 div(class="mt-1")
-                                    span(class="text-xs text-blue-500 font-medium") 🍰 Categoria: 
+                                    span(class="text-xs text-blue-500 font-medium") 🥤 Categoria: 
                                     span(class="text-xs text-blue-500")=array[index].piatti[j].categoria
                             
                             if array[index].piatti[j].ingredienti && array[index].piatti[j].ingredienti.length > 0
@@ -50,15 +50,15 @@ mixin menu_dolci(array)
                                     span(class="text-xs text-green-500 font-medium") 🥘 Ingredienti: 
                                     span(class="text-xs text-green-500")=array[index].piatti[j].ingredienti.join(', ')
                             
-                            if array[index].piatti[j].note_chef
-                                div(class="mt-1")
-                                    span(class="text-xs text-purple-500 font-medium") 👨‍🍳 Note Chef: 
-                                    span(class="text-xs text-purple-500")=array[index].piatti[j].note_chef
-                            
                             if array[index].piatti[j].temperatura_servizio
                                 div(class="mt-1")
                                     span(class="text-xs text-cyan-500 font-medium") 🌡️ Temperatura: 
                                     span(class="text-xs text-cyan-500")=array[index].piatti[j].temperatura_servizio
+                            
+                            if array[index].piatti[j].grado_alcolico
+                                div(class="mt-1")
+                                    span(class="text-xs text-amber-500 font-medium") 🍷 Grado: 
+                                    span(class="text-xs text-amber-500")=array[index].piatti[j].grado_alcolico
                         div(class="flex-none ml-4")
                             p(class="font-nunito text-left text-nero font-semibold text-base lg:text-lg")=(array[index].piatti[j].prezzo || array[index].piatti[j].price)+'€'
             -}     
@@ -85,5 +85,5 @@ block content
                     figure(class="col-span-2 pr-2")!=result.pagina.icon
                     div(class="col-span-10")
                         p(class="font-nunito text-left text-marrone-400 font-extralight text-2xl lg:text-4xl")=result.pagina.label
-            +menu_dolci(result.menu)
+            +menu_bevande(result.menu)
             

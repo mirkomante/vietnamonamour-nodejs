@@ -1,6 +1,6 @@
 extends menu.pug
 
-mixin menu_dolci(array)
+mixin menu_piatti(array)
     -for(let index=0;index<array.length;index++){
         article(class="w-full py-3")
             header(class="w-full pb-4")
@@ -25,24 +25,32 @@ mixin menu_dolci(array)
                                         span(class="text-xs text-green-500 font-medium bg-green-100 px-2 py-1 rounded mb-1") Novità!
                             p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base mt-1")=array[index].piatti[j].descrizione || array[index].piatti[j].description
                             
-                            // ✅ Badge per caratteristiche del piatto
+                            // ✅ Badge per caratteristiche del piatto (estratte dalla descrizione)
+                            -const descrizione = (array[index].piatti[j].descrizione || '').toLowerCase()
+                            -const isGlutenFree = descrizione.includes('gluten free') || array[index].piatti[j].glutenFree === true
+                            -const isNoLatticini = descrizione.includes('no latticini') || array[index].piatti[j].noLatticini === true
+                            -const isVegan = descrizione.includes('vegan') || array[index].piatti[j].vegan === true
+                            
                             div(class="mt-4 mb-3 flex flex-wrap gap-2")
-                                if array[index].piatti[j].glutenFree === true
+                                if isGlutenFree
                                     span(class="inline-flex items-center rounded-md bg-green-50 px-3 py-1.5 text-xs font-medium text-green-800 ring-1 ring-inset ring-green-600/20") Gluten Free
-                                if array[index].piatti[j].noLatticini === true
+                                if isNoLatticini
                                     span(class="inline-flex items-center rounded-md bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-800 ring-1 ring-inset ring-blue-600/20") No Latticini
-                                if array[index].piatti[j].vegan === true
+                                if isVegan
                                     span(class="inline-flex items-center rounded-md bg-purple-50 px-3 py-1.5 text-xs font-medium text-purple-800 ring-1 ring-inset ring-purple-600/20") Vegan
                             
-                            // ✅ Tutti i nuovi campi vtn-backend
+                            // ✅ Allergeni come badge
                             if array[index].piatti[j].allergeni && array[index].piatti[j].allergeni.length > 0
-                                div(class="mt-2")
-                                    span(class="text-xs text-red-500 font-medium") ⚠️ Allergeni: 
-                                    span(class="text-xs text-red-500")=array[index].piatti[j].allergeni.map(a => a.nome).join(', ')
+                                div(class="mt-3")
+                                    span(class="text-xs text-red-500 font-medium mb-2 block") ⚠️ Allergeni:
+                                    div(class="flex flex-wrap gap-1")
+                                        -for(let k=0;k<array[index].piatti[j].allergeni.length;k++){
+                                            span(class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-800 ring-1 ring-inset ring-red-600/20")=array[index].piatti[j].allergeni[k].nome
+                                        -}
                             
                             if array[index].piatti[j].categoria
                                 div(class="mt-1")
-                                    span(class="text-xs text-blue-500 font-medium") 🍰 Categoria: 
+                                    span(class="text-xs text-blue-500 font-medium") 🍽️ Categoria: 
                                     span(class="text-xs text-blue-500")=array[index].piatti[j].categoria
                             
                             if array[index].piatti[j].ingredienti && array[index].piatti[j].ingredienti.length > 0
@@ -55,23 +63,14 @@ mixin menu_dolci(array)
                                     span(class="text-xs text-purple-500 font-medium") 👨‍🍳 Note Chef: 
                                     span(class="text-xs text-purple-500")=array[index].piatti[j].note_chef
                             
-                            if array[index].piatti[j].temperatura_servizio
+                            if array[index].piatti[j].preparazione
                                 div(class="mt-1")
-                                    span(class="text-xs text-cyan-500 font-medium") 🌡️ Temperatura: 
-                                    span(class="text-xs text-cyan-500")=array[index].piatti[j].temperatura_servizio
+                                    span(class="text-xs text-indigo-500 font-medium") ⏱️ Preparazione: 
+                                    span(class="text-xs text-indigo-500")=array[index].piatti[j].preparazione
                         div(class="flex-none ml-4")
                             p(class="font-nunito text-left text-nero font-semibold text-base lg:text-lg")=(array[index].piatti[j].prezzo || array[index].piatti[j].price)+'€'
             -}     
             
-            // ✅ Sezione allergeni del menù (dopo i piatti)
-            if array[index].allergeni && array[index].allergeni.length > 0
-                div(class="w-full pl-2 pt-6 mt-4 border-t border-gray-200")
-                    div(class="flex items-center mb-3")
-                        span(class="text-sm font-medium text-marrone-400") ⚠️ Allergeni presenti nel menù:
-                    div(class="flex flex-wrap gap-2")
-                        -for(let k=0;k<array[index].allergeni.length;k++){
-                            span(class="inline-flex items-center rounded-md bg-yellow-50 px-3 py-1.5 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20")=array[index].allergeni[k].nome
-                        -}
     -}
 
 block content
@@ -85,5 +84,4 @@ block content
                     figure(class="col-span-2 pr-2")!=result.pagina.icon
                     div(class="col-span-10")
                         p(class="font-nunito text-left text-marrone-400 font-extralight text-2xl lg:text-4xl")=result.pagina.label
-            +menu_dolci(result.menu)
-            
+            +menu_piatti(result.menu)

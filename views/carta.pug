@@ -4,15 +4,52 @@ mixin menu_carta(array)
     -for(let index=0;index<array.length;index++){
         article(class="w-full py-3")
             header(class="w-full pb-4")
-                h1(class="font-nunito text-left text-arancio font-extralight text-2xl lg:text-4xl")=array[index].nome_sezione
+                // ✅ Legge direttamente i campi vtn-backend
+                h1(class="font-nunito text-left text-arancio font-extralight text-2xl lg:text-4xl")=array[index].nome_sezione || array[index].categoria || array[index].nome
             -for(let j=0;j<array[index].item.length;j++){
                 
-                div(class="w-full flex items-center pb-2")  
-                    div(class="grow pr-3")
-                        h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl")=array[index].item[j].piatto
-                        p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base")=array[index].item[j].descrizione
-                    div(class="flex-none")
-                        p(class="font-nunito text-left text-nero font-semibold text-base lg:text-lg")=array[index].item[j].prezzo+'€'
+                div(class="w-full pb-4 border-b border-gray-100 last:border-b-0")  
+                    div(class="flex items-start justify-between")
+                        div(class="grow pr-3")
+                            div(class="flex items-start justify-between")
+                                // ✅ Campi vtn-backend diretti
+                                h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl")=array[index].item[j].nome || array[index].item[j].piatto || array[index].item[j].name
+                                div(class="ml-4 flex flex-col items-end")
+                                    if array[index].item[j].disponibile === false
+                                        span(class="text-xs text-orange-500 font-medium bg-orange-100 px-2 py-1 rounded mb-1") Non disponibile
+                                    else if array[index].item[j].attivo === false || array[index].item[j].nascondi === true
+                                        span(class="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-1 rounded mb-1") Temporaneamente non disponibile
+                                    else if array[index].item[j].novita === true
+                                        span(class="text-xs text-green-500 font-medium bg-green-100 px-2 py-1 rounded mb-1") Novità!
+                            p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base mt-1")=array[index].item[j].descrizione || array[index].item[j].description
+                            
+                            // ✅ Tutti i nuovi campi vtn-backend
+                            if array[index].item[j].allergeni && array[index].item[j].allergeni.length > 0
+                                div(class="mt-2")
+                                    span(class="text-xs text-red-500 font-medium") ⚠️ Allergeni: 
+                                    span(class="text-xs text-red-500")=array[index].item[j].allergeni.join(', ')
+                            
+                            if array[index].item[j].categoria
+                                div(class="mt-1")
+                                    span(class="text-xs text-blue-500 font-medium") 📂 Categoria: 
+                                    span(class="text-xs text-blue-500")=array[index].item[j].categoria
+                            
+                            if array[index].item[j].ingredienti && array[index].item[j].ingredienti.length > 0
+                                div(class="mt-1")
+                                    span(class="text-xs text-green-500 font-medium") 🥘 Ingredienti: 
+                                    span(class="text-xs text-green-500")=array[index].item[j].ingredienti.join(', ')
+                            
+                            if array[index].item[j].note_chef
+                                div(class="mt-1")
+                                    span(class="text-xs text-purple-500 font-medium") 👨‍🍳 Note Chef: 
+                                    span(class="text-xs text-purple-500")=array[index].item[j].note_chef
+                            
+                            if array[index].item[j].preparazione
+                                div(class="mt-1")
+                                    span(class="text-xs text-indigo-500 font-medium") ⏱️ Preparazione: 
+                                    span(class="text-xs text-indigo-500")=array[index].item[j].preparazione
+                        div(class="flex-none ml-4")
+                            p(class="font-nunito text-left text-nero font-semibold text-base lg:text-lg")=(array[index].item[j].prezzo || array[index].item[j].price)+'€'
             -}     
     -}
 
