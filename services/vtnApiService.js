@@ -173,10 +173,18 @@ class VtnApiService {
         async getVini() {
             try {
                 console.log('🍷 Recupero vini da vtn-backend...');
-                const categoryId = this.config.CATEGORY_IDS.VINI;
-                const response = await this.client.get(`/api/v1/menu-fisso/categoria/${categoryId}/dettagli`);
+                const response = await this.client.get(`/api/v1/vini/raggruppati-per-tipologia`);
                 
+                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
+                console.log('📊 Struttura dati vini ricevuti da vtn-backend:');
+                console.log('Type:', typeof response.data);
+                console.log('Is Array:', Array.isArray(response.data));
+                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
+                console.log('Data sample:', JSON.stringify(response.data, null, 2));
+                
+                // ✅ Estrae i dati dall'oggetto di risposta
                 if (response.data && response.data.success && Array.isArray(response.data.data)) {
+                    console.log('✅ Dati vini estratti correttamente da vtn-backend');
                     return response.data.data;
                 } else {
                     throw new Error('Struttura dati non valida da vtn-backend');

@@ -5,78 +5,47 @@ mixin menu_vini(array)
         article(class="w-full py-3")
             header(class="w-full pb-4")
                 // ✅ Legge direttamente i campi vtn-backend
-                h1(class="font-nunito text-left text-arancio font-extralight text-2xl lg:text-4xl")=array[index].nome || array[index].nome_sezione || array[index].categoria
-                if array[index].descrizione
-                    p(class="font-nunito text-left text-marrone-400 font-light text-sm lg:text-base mt-2")=array[index].descrizione
-            -for(let j=0;j<array[index].piatti.length;j++){
+                h1(class="font-nunito text-left text-arancio font-extralight text-2xl lg:text-4xl")=array[index].tipologia.nome
+                if array[index].tipologia.descrizione
+                    p(class="font-nunito text-left text-marrone-400 font-light text-sm lg:text-base mt-2")=array[index].tipologia.descrizione
+            -for(let j=0;j<array[index].vini.length;j++){
                 
-                div(class="w-full pb-4 border-b border-gray-100 last:border-b-0")  
+                div(class="w-full pb-4")  
                     div(class="flex items-start justify-between")
                         div(class="grow pr-3")
                             div(class="flex items-start justify-between")
                                 // ✅ Campi vtn-backend diretti
-                                h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl")=array[index].piatti[j].nome || array[index].piatti[j].name
+                                h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl")=array[index].vini[j].nome || array[index].vini[j].name
                                 div(class="ml-4 flex flex-col items-end")
-                                    if array[index].piatti[j].disponibile === false
+                                    if array[index].vini[j].disponibile === false
                                         span(class="text-xs text-orange-500 font-medium bg-orange-100 px-2 py-1 rounded mb-1") Non disponibile
-                                    else if array[index].piatti[j].attivo === false || array[index].piatti[j].nascondi === true
+                                    else if array[index].vini[j].attivo === false || array[index].vini[j].nascondi === true
                                         span(class="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-1 rounded mb-1") Temporaneamente non disponibile
-                                    else if array[index].piatti[j].novita === true
+                                    else if array[index].vini[j].novita === true
                                         span(class="text-xs text-green-500 font-medium bg-green-100 px-2 py-1 rounded mb-1") Novità!
-                            p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base mt-1")=array[index].piatti[j].descrizione || array[index].piatti[j].description
+                            // ✅ Informazioni del vino in una riga separata da " • " (descrizione prima)
+                            -const infoVino = []
+                            -if(array[index].vini[j].descrizione) infoVino.push(array[index].vini[j].descrizione)
+                            -if(array[index].vini[j].grado) infoVino.push(array[index].vini[j].grado)
+                            -if(array[index].vini[j].capacita) infoVino.push(array[index].vini[j].capacita)
+                            -if(array[index].vini[j].certificazione) infoVino.push(array[index].vini[j].certificazione)
+                            -if(array[index].vini[j].cantina) infoVino.push(array[index].vini[j].cantina)
+                            -if(array[index].vini[j].nazione) infoVino.push(array[index].vini[j].nazione.nome)
+                            -if(array[index].vini[j].regione) infoVino.push(array[index].vini[j].regione.nome)
+                            -if(array[index].vini[j].zona) infoVino.push(array[index].vini[j].zona.nome)
+                            -if(array[index].vini[j].anno) infoVino.push(array[index].vini[j].anno)
                             
-                            // ✅ Badge per caratteristiche del piatto
-                            div(class="mt-4 mb-3 flex flex-wrap gap-2")
-                                if array[index].piatti[j].glutenFree === true
-                                    span(class="inline-flex items-center rounded-md bg-green-50 px-3 py-1.5 text-xs font-medium text-green-800 ring-1 ring-inset ring-green-600/20") Gluten Free
-                                if array[index].piatti[j].noLatticini === true
-                                    span(class="inline-flex items-center rounded-md bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-800 ring-1 ring-inset ring-blue-600/20") No Latticini
-                                if array[index].piatti[j].vegan === true
-                                    span(class="inline-flex items-center rounded-md bg-purple-50 px-3 py-1.5 text-xs font-medium text-purple-800 ring-1 ring-inset ring-purple-600/20") Vegan
-                            
-                            // ✅ Tutti i nuovi campi vtn-backend
-                            if array[index].piatti[j].allergeni && array[index].piatti[j].allergeni.length > 0
+                            if infoVino.length > 0
                                 div(class="mt-2")
-                                    span(class="text-xs text-red-500 font-medium") ⚠️ Allergeni: 
-                                    span(class="text-xs text-red-500")=array[index].piatti[j].allergeni.map(a => a.nome).join(', ')
-                            
-                            if array[index].piatti[j].categoria
-                                div(class="mt-1")
-                                    span(class="text-xs text-blue-500 font-medium") 🍷 Categoria: 
-                                    span(class="text-xs text-blue-500")=array[index].piatti[j].categoria
-                            
-                            if array[index].piatti[j].ingredienti && array[index].piatti[j].ingredienti.length > 0
-                                div(class="mt-1")
-                                    span(class="text-xs text-green-500 font-medium") 🥘 Ingredienti: 
-                                    span(class="text-xs text-green-500")=array[index].piatti[j].ingredienti.join(', ')
-                            
-                            if array[index].piatti[j].temperatura_servizio
-                                div(class="mt-1")
-                                    span(class="text-xs text-cyan-500 font-medium") 🌡️ Temperatura: 
-                                    span(class="text-xs text-cyan-500")=array[index].piatti[j].temperatura_servizio
-                            
-                            if array[index].piatti[j].grado_alcolico
-                                div(class="mt-1")
-                                    span(class="text-xs text-amber-500 font-medium") 🍷 Grado: 
-                                    span(class="text-xs text-amber-500")=array[index].piatti[j].grado_alcolico
-                            
-                            if array[index].piatti[j].annata
-                                div(class="mt-1")
-                                    span(class="text-xs text-indigo-500 font-medium") 📅 Annata: 
-                                    span(class="text-xs text-indigo-500")=array[index].piatti[j].annata
+                                    p(class="font-nunito font-light text-grigio-300 text-xs lg:text-sm")=infoVino.join(' • ')
                         div(class="flex-none ml-4")
-                            p(class="font-nunito text-left text-nero font-semibold text-base lg:text-lg")=(array[index].piatti[j].prezzo || array[index].piatti[j].price)+'€'
+                            div(class="text-right")
+                                if array[index].vini[j].prezzoCalice
+                                    p(class="font-nunito text-right text-nero font-semibold text-base lg:text-lg")=(array[index].vini[j].prezzoCalice)+'€' + ' ' + (array[index].vini[j].prezzo || array[index].vini[j].price)+'€'
+                                else
+                                    p(class="font-nunito text-right text-nero font-semibold text-base lg:text-lg")=(array[index].vini[j].prezzo || array[index].vini[j].price)+'€'
             -}     
             
-            // ✅ Sezione allergeni del menù (dopo i piatti)
-            if array[index].allergeni && array[index].allergeni.length > 0
-                div(class="w-full pl-2 pt-6 mt-4 border-t border-gray-200")
-                    div(class="flex items-center mb-3")
-                        span(class="text-sm font-medium text-marrone-400") ⚠️ Allergeni presenti nel menù:
-                    div(class="flex flex-wrap gap-2")
-                        -for(let k=0;k<array[index].allergeni.length;k++){
-                            span(class="inline-flex items-center rounded-md bg-yellow-50 px-3 py-1.5 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20")=array[index].allergeni[k].nome
-                        -}
     -}
 
 block content

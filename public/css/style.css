@@ -704,6 +704,9 @@ video {
 .text-center {
   text-align: center;
 } 
+.text-right {
+  text-align: right;
+} 
 .font-nunito {
   font-family: Nunito Sans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;
 } 
@@ -873,5 +876,10 @@ svg.menu-icon path {
   .lg\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
+  }
+
+  .lg\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 }
