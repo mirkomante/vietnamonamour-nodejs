@@ -1,0 +1,31 @@
+footer(class="w-full bg-gray-100 border-t border-marrone-100 mt-12")
+    div(class="w-full px-4 md:w-[48rem] lg:w-[56rem] md:mx-auto py-8")
+        div(class="grid grid-cols-1 md:grid-cols-2 gap-8")
+            // Sezione Servizi
+            div
+                h3(class="font-nunito text-left text-marrone-400 font-bold text-lg mb-4") Servizi
+                if result.servizi && result.servizi.length > 0
+                    div(class="space-y-3")
+                        -for(let i=0; i<result.servizi.length; i++){
+                            div(class="flex justify-between items-center py-2 border-b border-marrone-100")
+                                div
+                                    h4(class="font-nunito text-marrone-400 font-medium text-base")=result.servizi[i].nome || result.servizi[i].name || 'Servizio'
+                                    if result.servizi[i].descrizione
+                                        p(class="font-nunito text-grigio-200 text-sm mt-1")=result.servizi[i].descrizione
+                                if result.servizi[i].prezzo !== undefined && result.servizi[i].prezzo !== null
+                                    span(class="font-nunito text-nero font-semibold text-base")=result.servizi[i].prezzo + '€'
+                        -}
+                else
+                    p(class="font-nunito text-grigio-200 text-sm") Servizi non disponibili al momento
+            
+            // Sezione Avviso Allergeni
+            div
+                h3(class="font-nunito text-left text-marrone-400 font-bold text-lg mb-4") Avviso Allergeni
+                div(class="bg-arancio border-2 border-marrone-400 rounded-lg p-4")
+                    p(class="font-nunito text-bianco text-sm leading-relaxed font-medium") Avvisare prima di ordinare qualunque tipo di allergia o intolleranza alimentare.
+                    p(class="font-nunito text-bianco text-sm leading-relaxed font-medium mt-3") Verificare sempre con il personale i piatti gluten free, vegani, senza latticini e gli allergeni.
+    
+    // Copyright
+    div(class="w-full bg-marrone-100 border-t border-marrone-100")
+        div(class="w-full px-4 md:w-[48rem] lg:w-[56rem] md:mx-auto py-4")
+            p(class="font-nunito text-center text-marrone-400 text-sm") © #{new Date().getFullYear()} Vietnamonamour - Tutti i diritti riservati

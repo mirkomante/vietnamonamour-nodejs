@@ -276,6 +276,35 @@ class VtnApiService {
         }
 
     // ========================================
+    // METODI PER SERVIZI
+    // ========================================
+    
+        async getServizi() {
+            try {
+                console.log('🛠️ Recupero servizi da vtn-backend...');
+                const response = await this.client.get(`/api/v1/servizi`);
+                
+                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
+                console.log('📊 Struttura dati servizi ricevuti da vtn-backend:');
+                console.log('Type:', typeof response.data);
+                console.log('Is Array:', Array.isArray(response.data));
+                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
+                console.log('Data sample:', JSON.stringify(response.data, null, 2));
+                
+                // ✅ Estrae i dati dall'oggetto di risposta
+                if (response.data && response.data.success && Array.isArray(response.data.data)) {
+                    console.log('✅ Dati servizi estratti correttamente da vtn-backend');
+                    return response.data.data;
+                } else {
+                    throw new Error('Struttura dati non valida da vtn-backend');
+                }
+            } catch (error) {
+                console.error('❌ Errore nel recupero servizi:', error.message);
+                throw new Error(`Impossibile recuperare servizi: ${error.message}`);
+            }
+        }
+
+    // ========================================
     // METODI DI UTILITÀ
     // ========================================
     

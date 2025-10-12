@@ -2,7 +2,7 @@ extends menu.pug
 
 mixin menu_degustazione(array)
         -for(let index=0;index<array.length;index++){
-            article(class="w-full py-3 pt-8")
+            article(class="w-full py-6 pt-8 mb-8")
                 header(class="w-full pb-4")
                     // ✅ Legge direttamente i campi vtn-backend
                     h1(class="font-nunito text-left text-arancio font-extralight text-2xl lg:text-4xl")=array[index].nome || array[index].title
@@ -15,7 +15,7 @@ mixin menu_degustazione(array)
                 // ✅ Gestisce sia vtn-backend che fallback
                 -const piatti = array[index].piatti || array[index].item || []
                 -for(let j=0;j<piatti.length;j++){
-                    div(class="w-full pl-2 py-4")
+                    div(class="w-full pl-2 py-2")
                         div(class="flex items-start justify-between")
                             div(class="flex-1")
                                 // ✅ Campi vtn-backend diretti
@@ -63,13 +63,14 @@ mixin menu_degustazione(array)
                 
                 // ✅ Sezione allergeni del menù (dopo i piatti)
                 if array[index].allergeni && array[index].allergeni.length > 0
-                    div(class="w-full pl-2 pt-6 mt-4 border-t border-gray-200")
+                    div(class="w-full pl-2 pt-4 mt-6")
                         div(class="flex items-center mb-3")
                             span(class="text-sm font-medium text-marrone-400") ⚠️ Allergeni presenti nel menù:
                         div(class="flex flex-wrap gap-2")
                             -for(let k=0;k<array[index].allergeni.length;k++){
                                 span(class="inline-flex items-center rounded-md bg-yellow-50 px-3 py-1.5 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20")=array[index].allergeni[k].nome
                             -}
+                        div(class="w-full border-b border-gray-200 mt-4")
                 
         -}
 
