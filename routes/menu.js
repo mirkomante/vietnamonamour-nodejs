@@ -56,6 +56,7 @@ router.get('/', async (req,res)=>{
             result.file_path    = file_path
 
     result.index = [
+        {label:'I menù pranzo',link:'/business-lunch',icon:'<svg class="w-full h-8 fill-marrone-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="Menu pranzo" aria-describedby="Business lunch menu" role="img" xmlns:xlink="http://www.w3.org/1999/xlink"><path data-name="layer2" d="M8 20h48v32H8z" fill="none" stroke="#202020" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path data-name="layer1" d="M12 24h40v24H12z" fill="none" stroke="#202020" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><circle cx="20" cy="32" r="2" fill="#202020"></circle><circle cx="32" cy="32" r="2" fill="#202020"></circle><circle cx="44" cy="32" r="2" fill="#202020"></circle><circle cx="20" cy="40" r="2" fill="#202020"></circle><circle cx="32" cy="40" r="2" fill="#202020"></circle><circle cx="44" cy="40" r="2" fill="#202020"></circle><path d="M16 16h32v4H16z" fill="none" stroke="#202020" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>'},
         {label:'I menù degustazione',link:'/degustazione',icon:'<svg class="w-full h-8 fill-marrone-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title" aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink"><path data-name="layer2" d="M6 45v-2a26 26 0 0 1 52 0v2M28.6 17.1a4 4 0 1 1 6.7.1" fill="none" stroke="#202020" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path data-name="layer1" fill="none" stroke="#202020" stroke-linecap="round" stroke-linejoin="round" d="M2 45h60m-2 0l-2 5a4.2 4.2 0 0 1-4 3H10c-1.7 0-3.2-1.3-4-3l-2-5" stroke-width="2"></path></svg>'},
         {label:'Il menù alla carta',link:'/carta',icon:'<svg class="w-full h-8 menu-icon fill-marrone-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="Menu alla carta" aria-describedby="lista dei piatti" role="img" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M46 2L32.1 30M58 10L40 30M22 62h20"></path><path d="M2.1 30a30 30 0 0 0 59.8 0z"></path></svg>'},
         {label:'I nostri dolci',link:'/dolci',icon:'<svg class="w-full h-8 menu-icon fill-marrone-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="Dolci" aria-describedby="Lista dolci" role="img" xmlns:xlink="http://www.w3.org/1999/xlink"><path class="fill-none stroke-marrone-400" d="M2 52h60"></path><path d="M40.3 22.9L62 42v20H6c-3.2 0-4-2-4-4V42c0-18.5 14-30 22-30a7.4 7.4 0 0 1 3.5 1.4M2 42h60"></path><circle cx="34" cy="18" r="8"></circle><path d="M34 10c1.7-4.6-1.5-8-6-8"></path></svg>'},
@@ -81,6 +82,12 @@ router.get('/degustazione', async (req,res)=>{
     try {
         // Prova prima con vtn-backend
         console.log('🔄 Tentativo di recupero dati da vtn-backend...');
+        
+        // Chiamata per ottenere nome e descrizione della categoria
+        const categoryId = currentConfig.CATEGORY_IDS.DEGUSTAZIONE;
+        const categoriaData = await vtnApiService.getCategoriaMenuFisso(categoryId);
+        
+        // Chiamata per ottenere i dettagli del menu
         const vtnData = await vtnApiService.getMenuDegustazione();
         
         // 🔍 DEBUG: Analizza i dati ricevuti
@@ -89,6 +96,14 @@ router.get('/degustazione', async (req,res)=>{
         console.log('vtnData isArray:', Array.isArray(vtnData));
         console.log('vtnData keys:', vtnData ? Object.keys(vtnData) : 'N/A');
         console.log('vtnData sample:', JSON.stringify(vtnData, null, 2));
+        
+        // Aggiorna il label e la descrizione della pagina con i dati della categoria
+        if (categoriaData && categoriaData.nome) {
+            result.pagina.label = categoriaData.nome;
+        }
+        if (categoriaData && categoriaData.descrizione) {
+            result.pagina.descrizione = categoriaData.descrizione;
+        }
         
         // Passa i dati vtn-backend direttamente al template
         if (vtnData && Array.isArray(vtnData)) {
@@ -114,6 +129,69 @@ router.get('/degustazione', async (req,res)=>{
     }
 
     res.render('degustazione',{
+        result: result
+    });
+
+})
+
+router.get('/business-lunch', async (req,res)=>{
+    
+    const   result              = new Object();
+            result.file_path    = file_path
+            
+    result.pagina   = {label:'I menù pranzo',link:'/business-lunch',icon:'<svg class="w-full h-8 fill-marrone-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title" aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink"><path data-name="layer2" d="M6 45v-2a26 26 0 0 1 52 0v2M28.6 17.1a4 4 0 1 1 6.7.1" fill="none" stroke="#202020" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path data-name="layer1" fill="none" stroke="#202020" stroke-linecap="round" stroke-linejoin="round" d="M2 45h60m-2 0l-2 5a4.2 4.2 0 0 1-4 3H10c-1.7 0-3.2-1.3-4-3l-2-5" stroke-width="2"></path></svg>'}
+    result.menu     = new Array();
+
+    try {
+        // Prova prima con vtn-backend
+        console.log('🔄 Tentativo di recupero business lunch da vtn-backend...');
+        
+        // Chiamata per ottenere nome e descrizione della categoria
+        const categoryId = currentConfig.CATEGORY_IDS.BUSINESS_LUNCH;
+        const categoriaData = await vtnApiService.getCategoriaMenuFisso(categoryId);
+        
+        // Chiamata per ottenere i dettagli del menu
+        const vtnData = await vtnApiService.getBusinessLunch();
+        
+        // 🔍 DEBUG: Analizza i dati ricevuti
+        console.log('🔍 DEBUG - Analisi dati business lunch vtn-backend:');
+        console.log('vtnData type:', typeof vtnData);
+        console.log('vtnData isArray:', Array.isArray(vtnData));
+        console.log('vtnData keys:', vtnData ? Object.keys(vtnData) : 'N/A');
+        console.log('vtnData sample:', JSON.stringify(vtnData, null, 2));
+        
+        // Aggiorna il label e la descrizione della pagina con i dati della categoria
+        if (categoriaData && categoriaData.nome) {
+            result.pagina.label = categoriaData.nome;
+        }
+        if (categoriaData && categoriaData.descrizione) {
+            result.pagina.descrizione = categoriaData.descrizione;
+        }
+        
+        // Passa i dati vtn-backend direttamente al template
+        if (vtnData && Array.isArray(vtnData)) {
+            result.menu = vtnData; // ✅ Dati originali senza trasformazione
+            console.log('✅ Dati business lunch recuperati da vtn-backend');
+        } else {
+            console.log('❌ Dati non validi - vtnData non è un array');
+            throw new Error('Dati non validi da vtn-backend');
+        }
+        
+    } catch (error) {
+        console.log('⚠️ Errore vtn-backend, uso dati di fallback:', error.message);
+        
+        try {
+            // Fallback ai dati locali
+            const fallbackData = await vtnApiService.loadFallbackData('business-lunch');
+            result.menu = fallbackData;
+            console.log('📁 Dati di fallback caricati');
+        } catch (fallbackError) {
+            console.error('❌ Errore anche nel fallback:', fallbackError.message);
+            result.menu = [];
+        }
+    }
+
+    res.render('business-lunch',{
         result: result
     });
 

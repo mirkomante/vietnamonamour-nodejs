@@ -13,6 +13,7 @@ module.exports = {
     // ID delle categorie vtn-backend
     CATEGORY_IDS: {
       DEGUSTAZIONE: 'b1d71cbe-9fdf-4f1e-ac1b-6974284d44c7',
+      BUSINESS_LUNCH: '49c6b34c-ede2-4cc9-8ed2-5a34ea6e044c',
       PIATTI: ['a89d1e1f-7405-4851-8b15-fe0f42a6d1db', '4fbf8bc5-1271-483f-b784-43c0004eb9fb', '9a2d42fc-d435-4ed0-a2e0-adb7d2ded0d2', '1e66084b-0409-4d73-9fba-af177b37fd20', '9e963d11-f9f5-41d9-a58c-65de284d9b16'],
       DOLCI: 'da660752-2540-47e5-81d5-005b7f62ef6a',
       BEVANDE: 'categoria-bevande-id', // Da definire
@@ -32,6 +33,7 @@ module.exports = {
     // ID delle categorie vtn-backend (stessi ID in produzione)
     CATEGORY_IDS: {
       DEGUSTAZIONE: 'b1d71cbe-9fdf-4f1e-ac1b-6974284d44c7',
+      BUSINESS_LUNCH: '49c6b34c-ede2-4cc9-8ed2-5a34ea6e044c',
       PIATTI: ['a89d1e1f-7405-4851-8b15-fe0f42a6d1db', '4fbf8bc5-1271-483f-b784-43c0004eb9fb', '9a2d42fc-d435-4ed0-a2e0-adb7d2ded0d2', '1e66084b-0409-4d73-9fba-af177b37fd20', '9e963d11-f9f5-41d9-a58c-65de284d9b16'],
       DOLCI: 'da660752-2540-47e5-81d5-005b7f62ef6a',
       BEVANDE: 'categoria-bevande-id',
@@ -51,6 +53,7 @@ module.exports = {
     // ID delle categorie vtn-backend per test
     CATEGORY_IDS: {
       DEGUSTAZIONE: 'b1d71cbe-9fdf-4f1e-ac1b-6974284d44c7',
+      BUSINESS_LUNCH: '49c6b34c-ede2-4cc9-8ed2-5a34ea6e044c',
       PIATTI: ['a89d1e1f-7405-4851-8b15-fe0f42a6d1db', '4fbf8bc5-1271-483f-b784-43c0004eb9fb', '9a2d42fc-d435-4ed0-a2e0-adb7d2ded0d2', '1e66084b-0409-4d73-9fba-af177b37fd20', '9e963d11-f9f5-41d9-a58c-65de284d9b16'],
       DOLCI: 'da660752-2540-47e5-81d5-005b7f62ef6a',
       BEVANDE: 'categoria-bevande-id',

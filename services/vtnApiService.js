@@ -74,6 +74,57 @@ class VtnApiService {
             }
         }
 
+        async getBusinessLunch() {
+            try {
+                console.log('🍽️ Recupero business lunch da vtn-backend...');
+                const categoryId = this.config.CATEGORY_IDS.BUSINESS_LUNCH;
+                const response = await this.client.get(`/api/v1/menu-fisso/categoria/${categoryId}/dettagli`);
+                
+                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
+                console.log('📊 Struttura dati business lunch ricevuti da vtn-backend:');
+                console.log('Type:', typeof response.data);
+                console.log('Is Array:', Array.isArray(response.data));
+                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
+                console.log('Data sample:', JSON.stringify(response.data, null, 2));
+                
+                // ✅ Estrae i dati dall'oggetto di risposta
+                if (response.data && response.data.success && Array.isArray(response.data.data)) {
+                    console.log('✅ Dati business lunch estratti correttamente da vtn-backend');
+                    return response.data.data;
+                } else {
+                    throw new Error('Struttura dati non valida da vtn-backend');
+                }
+            } catch (error) {
+                console.error('❌ Errore nel recupero business lunch:', error.message);
+                throw new Error(`Impossibile recuperare business lunch: ${error.message}`);
+            }
+        }
+
+        async getCategoriaMenuFisso(categoryId) {
+            try {
+                console.log(`📋 Recupero categoria menu fisso ${categoryId} da vtn-backend...`);
+                const response = await this.client.get(`/api/v1/categoria-menu-fisso/${categoryId}`);
+                
+                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
+                console.log('📊 Struttura dati categoria ricevuti da vtn-backend:');
+                console.log('Type:', typeof response.data);
+                console.log('Is Array:', Array.isArray(response.data));
+                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
+                console.log('Data sample:', JSON.stringify(response.data, null, 2));
+                
+                // ✅ Estrae i dati dall'oggetto di risposta
+                if (response.data && response.data.success && response.data.data) {
+                    console.log('✅ Dati categoria estratti correttamente da vtn-backend');
+                    return response.data.data;
+                } else {
+                    throw new Error('Struttura dati non valida da vtn-backend');
+                }
+            } catch (error) {
+                console.error('❌ Errore nel recupero categoria:', error.message);
+                throw new Error(`Impossibile recuperare categoria: ${error.message}`);
+            }
+        }
+
     // ========================================
     // METODI PER MENU PIATTI
     // ========================================
@@ -202,10 +253,18 @@ class VtnApiService {
         async getDistillati() {
             try {
                 console.log('🥃 Recupero distillati da vtn-backend...');
-                const categoryId = this.config.CATEGORY_IDS.DISTILLATI;
-                const response = await this.client.get(`/api/v1/menu-fisso/categoria/${categoryId}/dettagli`);
+                const response = await this.client.get(`/api/v1/liquori/raggruppati-per-tipologia`);
                 
+                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
+                console.log('📊 Struttura dati distillati ricevuti da vtn-backend:');
+                console.log('Type:', typeof response.data);
+                console.log('Is Array:', Array.isArray(response.data));
+                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
+                console.log('Data sample:', JSON.stringify(response.data, null, 2));
+                
+                // ✅ Estrae i dati dall'oggetto di risposta
                 if (response.data && response.data.success && Array.isArray(response.data.data)) {
+                    console.log('✅ Dati distillati estratti correttamente da vtn-backend');
                     return response.data.data;
                 } else {
                     throw new Error('Struttura dati non valida da vtn-backend');
@@ -276,6 +335,9 @@ class VtnApiService {
                 case 'degustazione':
                     // Estrae le sezioni dai dati di fallback per degustazione
                     return (data.menu_degustazione || []).map(item => item.sezione);
+                case 'business-lunch':
+                    // Estrae le sezioni dai dati di fallback per business lunch
+                    return (data.menu_business_lunch || []).map(item => item.sezione);
                 case 'piatti':
                     return (data.menu_piatti || []).map(item => item.sezione);
                 case 'dolci':
