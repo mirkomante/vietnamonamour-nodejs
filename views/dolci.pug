@@ -2,76 +2,66 @@ extends menu.pug
 
 mixin menu_dolci(array)
     -for(let index=0;index<array.length;index++){
-        article(class="w-full py-3")
-            header(class="w-full pb-4")
-                // ✅ Legge direttamente i campi vtn-backend
-                h1(class="font-nunito text-left text-arancio font-extralight text-2xl lg:text-4xl")=array[index].nome || array[index].nome_sezione || array[index].categoria
-                if array[index].descrizione
-                    p(class="font-nunito text-left text-marrone-400 font-light text-sm lg:text-base mt-2")=array[index].descrizione
-            -for(let j=0;j<array[index].piatti.length;j++){
-                
-                div(class="w-full pb-4 border-b border-gray-100 last:border-b-0")  
+        div(class="w-full pb-4")  
+            div(class="flex items-start justify-between")
+                div(class="grow pr-3")
                     div(class="flex items-start justify-between")
-                        div(class="grow pr-3")
-                            div(class="flex items-start justify-between")
-                                // ✅ Campi vtn-backend diretti
-                                h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl")=array[index].piatti[j].nome || array[index].piatti[j].name
-                                div(class="ml-4 flex flex-col items-end")
-                                    if array[index].piatti[j].disponibile === false
-                                        span(class="text-xs text-orange-500 font-medium bg-orange-100 px-2 py-1 rounded mb-1") Non disponibile
-                                    else if array[index].piatti[j].attivo === false || array[index].piatti[j].nascondi === true
-                                        span(class="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-1 rounded mb-1") Temporaneamente non disponibile
-                                    else if array[index].piatti[j].novita === true
-                                        span(class="text-xs text-green-500 font-medium bg-green-100 px-2 py-1 rounded mb-1") Novità!
-                            p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base mt-1")=array[index].piatti[j].descrizione || array[index].piatti[j].description
-                            
-                            // ✅ Badge per caratteristiche del piatto
-                            div(class="mt-4 mb-3 flex flex-wrap gap-2")
-                                if array[index].piatti[j].glutenFree === true
-                                    span(class="inline-flex items-center rounded-md bg-green-50 px-3 py-1.5 text-xs font-medium text-green-800 ring-1 ring-inset ring-green-600/20") Gluten Free
-                                if array[index].piatti[j].noLatticini === true
-                                    span(class="inline-flex items-center rounded-md bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-800 ring-1 ring-inset ring-blue-600/20") No Latticini
-                                if array[index].piatti[j].vegan === true
-                                    span(class="inline-flex items-center rounded-md bg-purple-50 px-3 py-1.5 text-xs font-medium text-purple-800 ring-1 ring-inset ring-purple-600/20") Vegan
-                            
-                            // ✅ Tutti i nuovi campi vtn-backend
-                            if array[index].piatti[j].allergeni && array[index].piatti[j].allergeni.length > 0
-                                div(class="mt-2")
-                                    span(class="text-xs text-red-500 font-medium") ⚠️ Allergeni: 
-                                    span(class="text-xs text-red-500")=array[index].piatti[j].allergeni.map(a => a.nome).join(', ')
-                            
-                            if array[index].piatti[j].categoria
-                                div(class="mt-1")
-                                    span(class="text-xs text-blue-500 font-medium") 🍰 Categoria: 
-                                    span(class="text-xs text-blue-500")=array[index].piatti[j].categoria
-                            
-                            if array[index].piatti[j].ingredienti && array[index].piatti[j].ingredienti.length > 0
-                                div(class="mt-1")
-                                    span(class="text-xs text-green-500 font-medium") 🥘 Ingredienti: 
-                                    span(class="text-xs text-green-500")=array[index].piatti[j].ingredienti.join(', ')
-                            
-                            if array[index].piatti[j].note_chef
-                                div(class="mt-1")
-                                    span(class="text-xs text-purple-500 font-medium") 👨‍🍳 Note Chef: 
-                                    span(class="text-xs text-purple-500")=array[index].piatti[j].note_chef
-                            
-                            if array[index].piatti[j].temperatura_servizio
-                                div(class="mt-1")
-                                    span(class="text-xs text-cyan-500 font-medium") 🌡️ Temperatura: 
-                                    span(class="text-xs text-cyan-500")=array[index].piatti[j].temperatura_servizio
-                        div(class="flex-none ml-4")
-                            p(class="font-nunito text-left text-nero font-semibold text-base lg:text-lg")=(array[index].piatti[j].prezzo || array[index].piatti[j].price)+'€'
-            -}     
-            
-            // ✅ Sezione allergeni del menù (dopo i piatti)
-            if array[index].allergeni && array[index].allergeni.length > 0
-                div(class="w-full pl-2 pt-6 mt-4 border-t border-gray-200")
-                    div(class="flex items-center mb-3")
-                        span(class="text-sm font-medium text-marrone-400") ⚠️ Allergeni presenti nel menù:
-                    div(class="flex flex-wrap gap-2")
-                        -for(let k=0;k<array[index].allergeni.length;k++){
-                            span(class="inline-flex items-center rounded-md bg-yellow-50 px-3 py-1.5 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20")=array[index].allergeni[k].nome
-                        -}
+                        // ✅ Campi vtn-backend diretti
+                        h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl")=array[index].nome || array[index].name
+                        div(class="ml-4 flex flex-col items-end")
+                            if array[index].disponibile === false
+                                span(class="text-xs text-orange-500 font-medium bg-orange-100 px-2 py-1 rounded mb-1") Non disponibile
+                            else if array[index].attivo === false || array[index].nascondi === true
+                                span(class="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-1 rounded mb-1") Temporaneamente non disponibile
+                            else if array[index].novita === true
+                                span(class="text-xs text-green-500 font-medium bg-green-100 px-2 py-1 rounded mb-1") Novità!
+                    p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base mt-1")=array[index].descrizione || array[index].description
+                    
+                    // ✅ Badge per caratteristiche del piatto (estratte dalla descrizione)
+                    -const descrizione = (array[index].descrizione || '').toLowerCase()
+                    -const isGlutenFree = descrizione.includes('gluten free') || array[index].glutenFree === true
+                    -const isNoLatticini = descrizione.includes('no latticini') || array[index].noLatticini === true
+                    -const isVegan = descrizione.includes('vegan') || array[index].vegan === true
+                    
+                    div(class="mt-4 mb-3 flex flex-wrap gap-2")
+                        if isGlutenFree
+                            span(class="inline-flex items-center rounded-md bg-green-50 px-3 py-1.5 text-xs font-medium text-green-800 ring-1 ring-inset ring-green-600/20") Gluten Free
+                        if isNoLatticini
+                            span(class="inline-flex items-center rounded-md bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-800 ring-1 ring-inset ring-blue-600/20") No Latticini
+                        if isVegan
+                            span(class="inline-flex items-center rounded-md bg-purple-50 px-3 py-1.5 text-xs font-medium text-purple-800 ring-1 ring-inset ring-purple-600/20") Vegan
+                    
+                    // ✅ Allergeni come badge
+                    if array[index].allergeni && array[index].allergeni.length > 0
+                        div(class="mt-3")
+                            span(class="text-xs text-red-500 font-medium mb-2 block") ⚠️ Allergeni:
+                            div(class="flex flex-wrap gap-1")
+                                -for(let k=0;k<array[index].allergeni.length;k++){
+                                    span(class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-800 ring-1 ring-inset ring-red-600/20")=array[index].allergeni[k].allergene.nome
+                                -}
+                    
+                    
+                    if array[index].ingredienti && array[index].ingredienti.length > 0
+                        div(class="mt-1")
+                            span(class="text-xs text-green-500 font-medium") 🥘 Ingredienti: 
+                            span(class="text-xs text-green-500")=array[index].ingredienti.join(', ')
+                    
+                    if array[index].note_chef
+                        div(class="mt-1")
+                            span(class="text-xs text-purple-500 font-medium") 👨‍🍳 Note Chef: 
+                            span(class="text-xs text-purple-500")=array[index].note_chef
+                    
+                    if array[index].preparazione
+                        div(class="mt-1")
+                            span(class="text-xs text-indigo-500 font-medium") ⏱️ Preparazione: 
+                            span(class="text-xs text-indigo-500")=array[index].preparazione
+                    
+                    if array[index].temperatura_servizio
+                        div(class="mt-1")
+                            span(class="text-xs text-cyan-500 font-medium") 🌡️ Temperatura: 
+                            span(class="text-xs text-cyan-500")=array[index].temperatura_servizio
+                div(class="flex-none ml-4")
+                    p(class="font-nunito text-left text-nero font-semibold text-base lg:text-lg")=(array[index].prezzo || array[index].price)+'€'
     -}
 
 block content

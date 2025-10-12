@@ -115,9 +115,18 @@ class VtnApiService {
             try {
                 console.log('🍰 Recupero dolci da vtn-backend...');
                 const categoryId = this.config.CATEGORY_IDS.DOLCI;
-                const response = await this.client.get(`/api/v1/menu-fisso/categoria/${categoryId}/dettagli`);
+                const response = await this.client.get(`/api/v1/piatti/categoria/${categoryId}`);
                 
+                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
+                console.log('📊 Struttura dati dolci ricevuti da vtn-backend:');
+                console.log('Type:', typeof response.data);
+                console.log('Is Array:', Array.isArray(response.data));
+                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
+                console.log('Data sample:', JSON.stringify(response.data, null, 2));
+                
+                // ✅ Estrae i dati dall'oggetto di risposta
                 if (response.data && response.data.success && Array.isArray(response.data.data)) {
+                    console.log('✅ Dati dolci estratti correttamente da vtn-backend');
                     return response.data.data;
                 } else {
                     throw new Error('Struttura dati non valida da vtn-backend');
@@ -135,10 +144,18 @@ class VtnApiService {
         async getBevande() {
             try {
                 console.log('🥤 Recupero bevande da vtn-backend...');
-                const categoryId = this.config.CATEGORY_IDS.BEVANDE;
-                const response = await this.client.get(`/api/v1/menu-fisso/categoria/${categoryId}/dettagli`);
+                const response = await this.client.get(`/api/v1/bevande/raggruppate-per-tipologia`);
                 
+                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
+                console.log('📊 Struttura dati bevande ricevuti da vtn-backend:');
+                console.log('Type:', typeof response.data);
+                console.log('Is Array:', Array.isArray(response.data));
+                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
+                console.log('Data sample:', JSON.stringify(response.data, null, 2));
+                
+                // ✅ Estrae i dati dall'oggetto di risposta
                 if (response.data && response.data.success && Array.isArray(response.data.data)) {
+                    console.log('✅ Dati bevande estratti correttamente da vtn-backend');
                     return response.data.data;
                 } else {
                     throw new Error('Struttura dati non valida da vtn-backend');
