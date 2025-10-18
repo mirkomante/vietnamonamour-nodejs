@@ -2,15 +2,18 @@
 
 ## Panoramica
 
-Il progetto Vietnamonamour supporta diversi ambienti di configurazione per sviluppo, produzione e test. La configurazione è gestita tramite il file `config.js` e variabili d'ambiente.
+Il progetto Vietnamonamour supporta diversi ambienti di configurazione per sviluppo, produzione e test. La configurazione è gestita tramite variabili d'ambiente con fallback intelligenti per garantire sicurezza e flessibilità.
 
 ## File di Configurazione
 
+### `.env.example`
+Template delle variabili d'ambiente. Copia questo file in `.env` e personalizza i valori per il tuo ambiente.
+
 ### `config.js`
-File principale di configurazione che contiene le impostazioni per tutti gli ambienti.
+File principale di configurazione che utilizza le variabili d'ambiente con fallback intelligenti.
 
 ### `config.example.js`
-Template di configurazione che può essere copiato e personalizzato.
+Template di configurazione legacy (deprecato, usa `.env.example`).
 
 ## Ambienti Supportati
 
@@ -59,30 +62,78 @@ npm start
 
 ## Variabili d'Ambiente
 
-Puoi sovrascrivere le configurazioni tramite variabili d'ambiente:
+### Setup Iniziale
+
+1. **Copia il file template:**
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Modifica il file `.env` con i tuoi valori:**
+   ```bash
+   # Ambiente (development, production, test)
+   NODE_ENV=development
+   
+   # Porta del server
+   PORT=3000
+   
+   # URL del backend VTN (obbligatorio in produzione)
+   VTN_BACKEND_URL=http://localhost:8080
+   
+   # Altri parametri...
+   ```
+
+### Variabili Disponibili
+
+| Variabile | Default Development | Default Production | Descrizione |
+|-----------|-------------------|------------------|-------------|
+| `NODE_ENV` | `development` | `production` | Ambiente di esecuzione |
+| `PORT` | `3000` | `3000` | Porta del server |
+| `FILE_PATH` | `http://localhost:3000/` | `https://vietnamonamour.com/` | URL base per file statici |
+| `VTN_BACKEND_URL` | `http://localhost:8080` | **OBBLIGATORIO** | URL del backend VTN |
+| `API_TIMEOUT` | `10000` | `15000` | Timeout API in millisecondi |
+| `LOG_LEVEL` | `debug` | `error` | Livello di logging |
+
+### Variabili per Categorie (Opzionali)
+
+| Variabile | Default | Descrizione |
+|-----------|---------|-------------|
+| `DEGUSTAZIONE_CATEGORY_ID` | `b1d71cbe-9fdf-4f1e-ac1b-6974284d44c7` | ID categoria degustazione |
+| `BUSINESS_LUNCH_CATEGORY_ID` | `49c6b34c-ede2-4cc9-8ed2-5a34ea6e044c` | ID categoria business lunch |
+| `PIATTI_CATEGORY_IDS` | Array di ID separati da virgola | ID categorie piatti |
+| `DOLCI_CATEGORY_ID` | `da660752-2540-47e5-81d5-005b7f62ef6a` | ID categoria dolci |
+
+### Esempi di Utilizzo
 
 ```bash
-# Esempio per sviluppo
-NODE_ENV=development npm run dev
+# Sviluppo con backend personalizzato
+NODE_ENV=development VTN_BACKEND_URL=http://192.168.1.100:8080 npm run dev
 
-# Esempio per produzione
-NODE_ENV=production PORT=8080 npm start
+# Produzione con variabili d'ambiente
+NODE_ENV=production VTN_BACKEND_URL=https://api-vtn-backend.gcp.com npm start
+
+# Test con timeout personalizzato
+NODE_ENV=test API_TIMEOUT=3000 npm run test
 ```
 
 ## Configurazione per GCP
 
-Quando il backend sarà online su Google Cloud Platform, aggiorna il file `config.js`:
+Per il deployment su Google Cloud Platform, configura le variabili d'ambiente:
 
-```javascript
-production: {
-  NODE_ENV: 'production',
-  PORT: process.env.PORT || 3000,
-  FILE_PATH: 'https://vietnamonamour.com/',
-  VTN_BACKEND_URL: 'https://api-vtn-backend.gcp.com', // URL reale GCP
-  API_TIMEOUT: 15000,
-  LOG_LEVEL: 'error'
-}
+```bash
+# Nel file .env per produzione
+NODE_ENV=production
+VTN_BACKEND_URL=https://api-vtn-backend.gcp.com
+FILE_PATH=https://vietnamonamour.com/
+API_TIMEOUT=15000
+LOG_LEVEL=error
 ```
+
+### Sicurezza
+
+- ✅ **Il file `.env` è già nel `.gitignore`** - non verrà mai committato
+- ✅ **Le variabili d'ambiente sono obbligatorie in produzione** per `VTN_BACKEND_URL`
+- ✅ **Fallback intelligenti** per sviluppo locale
 
 ## Verifica Configurazione
 
