@@ -16,8 +16,6 @@ const   file_path       = currentConfig.FILE_PATH,
 const   express     = require('express'),
         router      = express.Router();
 
-const   fs          = require('fs'),
-        menu        = setupMenuData();
 
 // ========================================
 // FUNZIONE HELPER PER RECUPERARE SERVIZI
@@ -36,34 +34,6 @@ async function getServiziData() {
     
 
 
-function setupMenuData(){
-    let parsed_menu = new Object();
-
-
-    fs.readFile('./data/menu.json', 'utf8', (error, data) => {
-        
-        if(error){
-            console.log(error);
-            return;
-        }
-
-        let data_parsed = JSON.parse(data);
-
-        Object.keys(data_parsed).forEach(key => {
-
-            parsed_menu[key]   = data_parsed[key]
-        });
-
-        parsed_menu    = JSON.parse(data);
-    
-    })
-
-
-    return parsed_menu;
-
-}
-
-console.log('out')
 
 router.get('/', async (req,res)=>{
     
@@ -98,8 +68,8 @@ router.get('/degustazione', async (req,res)=>{
     result.servizi = await getServiziData();
 
     try {
-        // Prova prima con vtn-backend
-        console.log('🔄 Tentativo di recupero dati da vtn-backend...');
+        // Recupero dati da vtn-backend
+        console.log('🔄 Recupero dati da vtn-backend...');
         
         // Chiamata per ottenere nome e descrizione della categoria
         const categoryId = currentConfig.CATEGORY_IDS.DEGUSTAZIONE;
@@ -107,13 +77,6 @@ router.get('/degustazione', async (req,res)=>{
         
         // Chiamata per ottenere i dettagli del menu
         const vtnData = await vtnApiService.getMenuDegustazione();
-        
-        // 🔍 DEBUG: Analizza i dati ricevuti
-        console.log('🔍 DEBUG - Analisi dati vtn-backend:');
-        console.log('vtnData type:', typeof vtnData);
-        console.log('vtnData isArray:', Array.isArray(vtnData));
-        console.log('vtnData keys:', vtnData ? Object.keys(vtnData) : 'N/A');
-        console.log('vtnData sample:', JSON.stringify(vtnData, null, 2));
         
         // Aggiorna il label e la descrizione della pagina con i dati della categoria
         if (categoriaData && categoriaData.nome) {
@@ -125,25 +88,15 @@ router.get('/degustazione', async (req,res)=>{
         
         // Passa i dati vtn-backend direttamente al template
         if (vtnData && Array.isArray(vtnData)) {
-            result.menu = vtnData; // ✅ Dati originali senza trasformazione
-            console.log('✅ Dati recuperati da vtn-backend');
+            result.menu = vtnData;
+            console.log('✅ Dati degustazione recuperati da vtn-backend');
         } else {
-            console.log('❌ Dati non validi - vtnData non è un array');
             throw new Error('Dati non validi da vtn-backend');
         }
         
     } catch (error) {
-        console.log('⚠️ Errore vtn-backend, uso dati di fallback:', error.message);
-        
-        try {
-            // Fallback ai dati locali
-            const fallbackData = await vtnApiService.loadFallbackData('degustazione');
-            result.menu = fallbackData;
-            console.log('📁 Dati di fallback caricati');
-        } catch (fallbackError) {
-            console.error('❌ Errore anche nel fallback:', fallbackError.message);
-            result.menu = [];
-        }
+        console.error('❌ Errore nel recupero dati degustazione:', error.message);
+        result.menu = [];
     }
 
     res.render('degustazione',{
@@ -164,8 +117,8 @@ router.get('/business-lunch', async (req,res)=>{
     result.servizi = await getServiziData();
 
     try {
-        // Prova prima con vtn-backend
-        console.log('🔄 Tentativo di recupero business lunch da vtn-backend...');
+        // Recupero dati da vtn-backend
+        console.log('🔄 Recupero business lunch da vtn-backend...');
         
         // Chiamata per ottenere nome e descrizione della categoria
         const categoryId = currentConfig.CATEGORY_IDS.BUSINESS_LUNCH;
@@ -173,13 +126,6 @@ router.get('/business-lunch', async (req,res)=>{
         
         // Chiamata per ottenere i dettagli del menu
         const vtnData = await vtnApiService.getBusinessLunch();
-        
-        // 🔍 DEBUG: Analizza i dati ricevuti
-        console.log('🔍 DEBUG - Analisi dati business lunch vtn-backend:');
-        console.log('vtnData type:', typeof vtnData);
-        console.log('vtnData isArray:', Array.isArray(vtnData));
-        console.log('vtnData keys:', vtnData ? Object.keys(vtnData) : 'N/A');
-        console.log('vtnData sample:', JSON.stringify(vtnData, null, 2));
         
         // Aggiorna il label e la descrizione della pagina con i dati della categoria
         if (categoriaData && categoriaData.nome) {
@@ -191,25 +137,15 @@ router.get('/business-lunch', async (req,res)=>{
         
         // Passa i dati vtn-backend direttamente al template
         if (vtnData && Array.isArray(vtnData)) {
-            result.menu = vtnData; // ✅ Dati originali senza trasformazione
+            result.menu = vtnData;
             console.log('✅ Dati business lunch recuperati da vtn-backend');
         } else {
-            console.log('❌ Dati non validi - vtnData non è un array');
             throw new Error('Dati non validi da vtn-backend');
         }
         
     } catch (error) {
-        console.log('⚠️ Errore vtn-backend, uso dati di fallback:', error.message);
-        
-        try {
-            // Fallback ai dati locali
-            const fallbackData = await vtnApiService.loadFallbackData('business-lunch');
-            result.menu = fallbackData;
-            console.log('📁 Dati di fallback caricati');
-        } catch (fallbackError) {
-            console.error('❌ Errore anche nel fallback:', fallbackError.message);
-            result.menu = [];
-        }
+        console.error('❌ Errore nel recupero dati business lunch:', error.message);
+        result.menu = [];
     }
 
     res.render('business-lunch',{
@@ -229,30 +165,21 @@ router.get('/carta', async (req,res)=>{
     result.servizi = await getServiziData();
 
     try {
-        // Prova prima con vtn-backend
-        console.log('🔄 Tentativo di recupero menu piatti da vtn-backend...');
+        // Recupero dati da vtn-backend
+        console.log('🔄 Recupero menu piatti da vtn-backend...');
         const vtnData = await vtnApiService.getMenuPiatti();
         
         // Passa i dati vtn-backend direttamente al template
         if (vtnData && Array.isArray(vtnData)) {
-            result.menu = vtnData; // ✅ Dati originali senza trasformazione
+            result.menu = vtnData;
             console.log('✅ Menu piatti recuperato da vtn-backend');
         } else {
             throw new Error('Dati non validi da vtn-backend');
         }
         
     } catch (error) {
-        console.log('⚠️ Errore vtn-backend, uso dati di fallback:', error.message);
-        
-        try {
-            // Fallback ai dati locali
-            const fallbackData = await vtnApiService.loadFallbackData('piatti');
-            result.menu = fallbackData;
-            console.log('📁 Dati di fallback caricati');
-        } catch (fallbackError) {
-            console.error('❌ Errore anche nel fallback:', fallbackError.message);
-            result.menu = [];
-        }
+        console.error('❌ Errore nel recupero menu piatti:', error.message);
+        result.menu = [];
     }
 
     res.render('piatti',{
@@ -272,30 +199,21 @@ router.get('/dolci', async (req,res)=>{
     result.servizi = await getServiziData();
 
     try {
-        // Prova prima con vtn-backend
-        console.log('🔄 Tentativo di recupero dolci da vtn-backend...');
+        // Recupero dati da vtn-backend
+        console.log('🔄 Recupero dolci da vtn-backend...');
         const vtnData = await vtnApiService.getDolci();
         
         // Passa i dati vtn-backend direttamente al template
         if (vtnData && Array.isArray(vtnData)) {
-            result.menu = vtnData; // ✅ Dati originali senza trasformazione
+            result.menu = vtnData;
             console.log('✅ Dolci recuperati da vtn-backend');
         } else {
             throw new Error('Dati non validi da vtn-backend');
         }
         
     } catch (error) {
-        console.log('⚠️ Errore vtn-backend, uso dati di fallback:', error.message);
-        
-        try {
-            // Fallback ai dati locali
-            const fallbackData = await vtnApiService.loadFallbackData('dolci');
-            result.menu = fallbackData;
-            console.log('📁 Dati di fallback caricati');
-        } catch (fallbackError) {
-            console.error('❌ Errore anche nel fallback:', fallbackError.message);
-            result.menu = [];
-        }
+        console.error('❌ Errore nel recupero dolci:', error.message);
+        result.menu = [];
     }
 
     res.render('dolci',{
@@ -315,30 +233,21 @@ router.get('/bevande', async (req,res)=>{
     result.servizi = await getServiziData();
 
     try {
-        // Prova prima con vtn-backend
-        console.log('🔄 Tentativo di recupero bevande da vtn-backend...');
+        // Recupero dati da vtn-backend
+        console.log('🔄 Recupero bevande da vtn-backend...');
         const vtnData = await vtnApiService.getBevande();
         
         // Passa i dati vtn-backend direttamente al template
         if (vtnData && Array.isArray(vtnData)) {
-            result.menu = vtnData; // ✅ Dati originali senza trasformazione
+            result.menu = vtnData;
             console.log('✅ Bevande recuperate da vtn-backend');
         } else {
             throw new Error('Dati non validi da vtn-backend');
         }
         
     } catch (error) {
-        console.log('⚠️ Errore vtn-backend, uso dati di fallback:', error.message);
-        
-        try {
-            // Fallback ai dati locali
-            const fallbackData = await vtnApiService.loadFallbackData('bevande');
-            result.menu = fallbackData;
-            console.log('📁 Dati di fallback caricati');
-        } catch (fallbackError) {
-            console.error('❌ Errore anche nel fallback:', fallbackError.message);
-            result.menu = [];
-        }
+        console.error('❌ Errore nel recupero bevande:', error.message);
+        result.menu = [];
     }
 
     res.render('bevande',{
@@ -358,47 +267,21 @@ router.get('/vini', async (req,res)=>{
     result.servizi = await getServiziData();
 
     try {
-        // Prova prima con vtn-backend
-        console.log('🔄 Tentativo di recupero vini da vtn-backend...');
+        // Recupero dati da vtn-backend
+        console.log('🔄 Recupero vini da vtn-backend...');
         const vtnData = await vtnApiService.getVini();
         
         // Passa i dati vtn-backend direttamente al template
         if (vtnData && Array.isArray(vtnData)) {
-            result.menu = vtnData; // ✅ Dati originali senza trasformazione
+            result.menu = vtnData;
             console.log('✅ Vini recuperati da vtn-backend');
         } else {
             throw new Error('Dati non validi da vtn-backend');
         }
         
     } catch (error) {
-        console.log('⚠️ Errore vtn-backend, uso dati di fallback:', error.message);
-        
-        try {
-            // Fallback ai dati locali
-            const fallbackData = await vtnApiService.loadFallbackData('vini');
-            result.menu = [
-                {
-                    nome_sezione: 'Spumanti / Champagne',
-                    item: fallbackData.spumanti || []
-                },
-                {
-                    nome_sezione: 'I Bianchi',
-                    item: fallbackData.bianchi || []
-                },
-                {
-                    nome_sezione: 'I Rosati',
-                    item: fallbackData.rosati || []
-                },
-                {
-                    nome_sezione: 'I Rossi',
-                    item: fallbackData.rossi || []
-                }
-            ];
-            console.log('📁 Dati di fallback caricati');
-        } catch (fallbackError) {
-            console.error('❌ Errore anche nel fallback:', fallbackError.message);
-            result.menu = [];
-        }
+        console.error('❌ Errore nel recupero vini:', error.message);
+        result.menu = [];
     }
     
     res.render('vini',{
@@ -418,30 +301,21 @@ router.get('/distillati', async (req,res)=>{
     result.servizi = await getServiziData();
 
     try {
-        // Prova prima con vtn-backend
-        console.log('🔄 Tentativo di recupero distillati da vtn-backend...');
+        // Recupero dati da vtn-backend
+        console.log('🔄 Recupero distillati da vtn-backend...');
         const vtnData = await vtnApiService.getDistillati();
         
         // Passa i dati vtn-backend direttamente al template
         if (vtnData && Array.isArray(vtnData)) {
-            result.menu = vtnData; // ✅ Dati originali senza trasformazione
+            result.menu = vtnData;
             console.log('✅ Distillati recuperati da vtn-backend');
         } else {
             throw new Error('Dati non validi da vtn-backend');
         }
         
     } catch (error) {
-        console.log('⚠️ Errore vtn-backend, uso dati di fallback:', error.message);
-        
-        try {
-            // Fallback ai dati locali
-            const fallbackData = await vtnApiService.loadFallbackData('distillati');
-            result.menu = fallbackData;
-            console.log('📁 Dati di fallback caricati');
-        } catch (fallbackError) {
-            console.error('❌ Errore anche nel fallback:', fallbackError.message);
-            result.menu = [];
-        }
+        console.error('❌ Errore nel recupero distillati:', error.message);
+        result.menu = [];
     }
 
     res.render('distillati',{

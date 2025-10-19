@@ -10,7 +10,7 @@ mixin menu_piatti(array)
                     p(class="font-nunito text-left text-marrone-400 font-light text-sm lg:text-base mt-2")=array[index].descrizione
             -for(let j=0;j<array[index].piatti.length;j++){
                 
-                div(class="w-full pb-6 border-b border-gray-100 last:border-b-0")  
+                div(class="w-full pb-3 mb-8 border-b border-gray-200 last:border-b-0")  
                     div(class="flex items-start justify-between")
                         div(class="grow pr-3")
                             div(class="flex items-start justify-between")
@@ -43,12 +43,12 @@ mixin menu_piatti(array)
                             // ✅ Allergeni come badge - Stile precedente con linea separatrice
                             if array[index].piatti[j].allergeni && array[index].piatti[j].allergeni.length > 0
                                 div(class="mt-6 mb-4")
-                                    span(class="text-xs text-red-500 font-medium mb-2 block") ⚠️ Allergeni:
+                                    span(class="text-xs text-gray-600 font-medium mb-2 block") ⚠️ Allergeni:
                                     div(class="flex flex-wrap gap-1")
                                         -for(let k=0;k<array[index].piatti[j].allergeni.length;k++){
                                             span(class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-800 ring-1 ring-inset ring-red-600/20")=array[index].piatti[j].allergeni[k].nome
                                         -}
-                                    div(class="w-full border-b border-gray-200 mt-4")
+                                    div(class="w-full mt-4")
                             
                             if array[index].piatti[j].categoria
                                 div(class="mt-1")

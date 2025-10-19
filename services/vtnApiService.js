@@ -54,16 +54,8 @@ class VtnApiService {
                 const categoryId = this.config.CATEGORY_IDS.DEGUSTAZIONE;
                 const response = await this.client.get(`/api/v1/menu-fisso/categoria/${categoryId}/dettagli`);
                 
-                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
-                console.log('📊 Struttura dati ricevuti da vtn-backend:');
-                console.log('Type:', typeof response.data);
-                console.log('Is Array:', Array.isArray(response.data));
-                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
-                console.log('Data sample:', JSON.stringify(response.data, null, 2));
-                
                 // ✅ Estrae i dati dall'oggetto di risposta
                 if (response.data && response.data.success && Array.isArray(response.data.data)) {
-                    console.log('✅ Dati estratti correttamente da vtn-backend');
                     return response.data.data;
                 } else {
                     throw new Error('Struttura dati non valida da vtn-backend');
@@ -80,16 +72,8 @@ class VtnApiService {
                 const categoryId = this.config.CATEGORY_IDS.BUSINESS_LUNCH;
                 const response = await this.client.get(`/api/v1/menu-fisso/categoria/${categoryId}/dettagli`);
                 
-                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
-                console.log('📊 Struttura dati business lunch ricevuti da vtn-backend:');
-                console.log('Type:', typeof response.data);
-                console.log('Is Array:', Array.isArray(response.data));
-                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
-                console.log('Data sample:', JSON.stringify(response.data, null, 2));
-                
                 // ✅ Estrae i dati dall'oggetto di risposta
                 if (response.data && response.data.success && Array.isArray(response.data.data)) {
-                    console.log('✅ Dati business lunch estratti correttamente da vtn-backend');
                     return response.data.data;
                 } else {
                     throw new Error('Struttura dati non valida da vtn-backend');
@@ -105,16 +89,8 @@ class VtnApiService {
                 console.log(`📋 Recupero categoria menu fisso ${categoryId} da vtn-backend...`);
                 const response = await this.client.get(`/api/v1/categoria-menu-fisso/${categoryId}`);
                 
-                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
-                console.log('📊 Struttura dati categoria ricevuti da vtn-backend:');
-                console.log('Type:', typeof response.data);
-                console.log('Is Array:', Array.isArray(response.data));
-                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
-                console.log('Data sample:', JSON.stringify(response.data, null, 2));
-                
                 // ✅ Estrae i dati dall'oggetto di risposta
                 if (response.data && response.data.success && response.data.data) {
-                    console.log('✅ Dati categoria estratti correttamente da vtn-backend');
                     return response.data.data;
                 } else {
                     throw new Error('Struttura dati non valida da vtn-backend');
@@ -138,16 +114,8 @@ class VtnApiService {
                 const categoriesParam = categoryIds.join(',');
                 const response = await this.client.get(`/api/v1/piatti/categorie/ordine?categorie=${categoriesParam}`);
                 
-                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
-                console.log('📊 Struttura dati piatti ricevuti da vtn-backend:');
-                console.log('Type:', typeof response.data);
-                console.log('Is Array:', Array.isArray(response.data));
-                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
-                console.log('Data sample:', JSON.stringify(response.data, null, 2));
-                
                 // ✅ Estrae i dati dall'oggetto di risposta
                 if (response.data && response.data.success && Array.isArray(response.data.data)) {
-                    console.log('✅ Dati piatti estratti correttamente da vtn-backend');
                     return response.data.data;
                 } else {
                     throw new Error('Struttura dati non valida da vtn-backend');
@@ -168,16 +136,8 @@ class VtnApiService {
                 const categoryId = this.config.CATEGORY_IDS.DOLCI;
                 const response = await this.client.get(`/api/v1/piatti/categoria/${categoryId}`);
                 
-                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
-                console.log('📊 Struttura dati dolci ricevuti da vtn-backend:');
-                console.log('Type:', typeof response.data);
-                console.log('Is Array:', Array.isArray(response.data));
-                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
-                console.log('Data sample:', JSON.stringify(response.data, null, 2));
-                
                 // ✅ Estrae i dati dall'oggetto di risposta
                 if (response.data && response.data.success && Array.isArray(response.data.data)) {
-                    console.log('✅ Dati dolci estratti correttamente da vtn-backend');
                     return response.data.data;
                 } else {
                     throw new Error('Struttura dati non valida da vtn-backend');
@@ -197,16 +157,8 @@ class VtnApiService {
                 console.log('🥤 Recupero bevande da vtn-backend...');
                 const response = await this.client.get(`/api/v1/bevande/raggruppate-per-tipologia`);
                 
-                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
-                console.log('📊 Struttura dati bevande ricevuti da vtn-backend:');
-                console.log('Type:', typeof response.data);
-                console.log('Is Array:', Array.isArray(response.data));
-                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
-                console.log('Data sample:', JSON.stringify(response.data, null, 2));
-                
                 // ✅ Estrae i dati dall'oggetto di risposta
                 if (response.data && response.data.success && Array.isArray(response.data.data)) {
-                    console.log('✅ Dati bevande estratti correttamente da vtn-backend');
                     return response.data.data;
                 } else {
                     throw new Error('Struttura dati non valida da vtn-backend');
@@ -226,16 +178,8 @@ class VtnApiService {
                 console.log('🍷 Recupero vini da vtn-backend...');
                 const response = await this.client.get(`/api/v1/vini/raggruppati-per-tipologia`);
                 
-                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
-                console.log('📊 Struttura dati vini ricevuti da vtn-backend:');
-                console.log('Type:', typeof response.data);
-                console.log('Is Array:', Array.isArray(response.data));
-                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
-                console.log('Data sample:', JSON.stringify(response.data, null, 2));
-                
                 // ✅ Estrae i dati dall'oggetto di risposta
                 if (response.data && response.data.success && Array.isArray(response.data.data)) {
-                    console.log('✅ Dati vini estratti correttamente da vtn-backend');
                     return response.data.data;
                 } else {
                     throw new Error('Struttura dati non valida da vtn-backend');
@@ -255,16 +199,8 @@ class VtnApiService {
                 console.log('🥃 Recupero distillati da vtn-backend...');
                 const response = await this.client.get(`/api/v1/liquori/raggruppati-per-tipologia`);
                 
-                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
-                console.log('📊 Struttura dati distillati ricevuti da vtn-backend:');
-                console.log('Type:', typeof response.data);
-                console.log('Is Array:', Array.isArray(response.data));
-                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
-                console.log('Data sample:', JSON.stringify(response.data, null, 2));
-                
                 // ✅ Estrae i dati dall'oggetto di risposta
                 if (response.data && response.data.success && Array.isArray(response.data.data)) {
-                    console.log('✅ Dati distillati estratti correttamente da vtn-backend');
                     return response.data.data;
                 } else {
                     throw new Error('Struttura dati non valida da vtn-backend');
@@ -284,16 +220,8 @@ class VtnApiService {
                 console.log('🛠️ Recupero servizi da vtn-backend...');
                 const response = await this.client.get(`/api/v1/servizi`);
                 
-                // 🔍 DEBUG: Logga la struttura dei dati ricevuti
-                console.log('📊 Struttura dati servizi ricevuti da vtn-backend:');
-                console.log('Type:', typeof response.data);
-                console.log('Is Array:', Array.isArray(response.data));
-                console.log('Keys:', response.data ? Object.keys(response.data) : 'N/A');
-                console.log('Data sample:', JSON.stringify(response.data, null, 2));
-                
                 // ✅ Estrae i dati dall'oggetto di risposta
                 if (response.data && response.data.success && Array.isArray(response.data.data)) {
-                    console.log('✅ Dati servizi estratti correttamente da vtn-backend');
                     return response.data.data;
                 } else {
                     throw new Error('Struttura dati non valida da vtn-backend');
@@ -342,54 +270,7 @@ class VtnApiService {
         }
     }
 
-    // ========================================
-    // METODI DI FALLBACK
-    // ========================================
     
-    /**
-     * Carica dati di fallback dal file locale
-     */
-    async loadFallbackData(dataType) {
-        try {
-            const fs = require('fs');
-            const path = require('path');
-            
-            const filePath = path.join(__dirname, '../data/menu.json');
-            const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-            
-            console.log(`📁 Caricamento dati di fallback per ${dataType}...`);
-            
-            // Restituisce i dati appropriati in base al tipo richiesto
-            switch (dataType) {
-                case 'degustazione':
-                    // Estrae le sezioni dai dati di fallback per degustazione
-                    return (data.menu_degustazione || []).map(item => item.sezione);
-                case 'business-lunch':
-                    // Estrae le sezioni dai dati di fallback per business lunch
-                    return (data.menu_business_lunch || []).map(item => item.sezione);
-                case 'piatti':
-                    return (data.menu_piatti || []).map(item => item.sezione);
-                case 'dolci':
-                    return (data.lista_dolci || []).map(item => item.sezione);
-                case 'bevande':
-                    return (data.lista_bevande || []).map(item => item.sezione);
-                case 'vini':
-                    return {
-                        spumanti: data.carta_spumanti_tabella || [],
-                        bianchi: data.carta_bianchi_tabella || [],
-                        rosati: data.carta_rosati_tabella || [],
-                        rossi: data.carta_rossi_tabella || []
-                    };
-                case 'distillati':
-                    return (data.carta_liquori || []).map(item => item.sezione);
-                default:
-                    return data;
-            }
-        } catch (error) {
-            console.error(`❌ Errore nel caricamento dati di fallback per ${dataType}:`, error.message);
-            return [];
-        }
-    }
 }
 
 // Esporta un'istanza singleton del servizio

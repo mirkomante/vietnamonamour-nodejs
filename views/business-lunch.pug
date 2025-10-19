@@ -59,19 +59,19 @@ mixin menu_business_lunch(array)
                                     span(class="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-1 rounded") Temporaneamente non disponibile
                                 else if piatti[j].novita === true
                                     span(class="text-xs text-green-500 font-medium bg-green-100 px-2 py-1 rounded") Novità!
-            -}
-            
-            // ✅ Sezione allergeni del menù (dopo i piatti)
-            if array[index].allergeni && array[index].allergeni.length > 0
-                div(class="w-full pl-2 pt-4 mt-6")
-                    div(class="flex items-center mb-3")
-                        span(class="text-sm font-medium text-marrone-400") ⚠️ Allergeni presenti nel menù:
-                    div(class="flex flex-wrap gap-2")
-                        -for(let k=0;k<array[index].allergeni.length;k++){
-                            span(class="inline-flex items-center rounded-md bg-yellow-50 px-3 py-1.5 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20")=array[index].allergeni[k].nome
-                        -}
-                    div(class="w-full border-b border-gray-200 mt-4")
-            
+                -}
+                
+                // ✅ Sezione allergeni del menù (dopo i piatti)
+                if array[index].allergeni && array[index].allergeni.length > 0
+                    div(class="w-full pl-2 pt-4 mt-6")
+                        div(class="flex items-center mb-3")
+                            span(class="text-sm font-medium text-marrone-400") ⚠️ Allergeni presenti nel menù:
+                        div(class="flex flex-wrap gap-2")
+                            -for(let k=0;k<array[index].allergeni.length;k++){
+                                span(class="inline-flex items-center rounded-md bg-yellow-50 px-3 py-1.5 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20")=array[index].allergeni[k].nome
+                            -}
+                        div(class="w-full border-b border-gray-200 mt-4")
+                
         -}
 
 block content

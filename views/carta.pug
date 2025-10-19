@@ -6,50 +6,62 @@ mixin menu_carta(array)
             header(class="w-full pb-4")
                 // ✅ Legge direttamente i campi vtn-backend
                 h1(class="font-nunito text-left text-arancio font-extralight text-2xl lg:text-4xl")=array[index].nome_sezione || array[index].categoria || array[index].nome
-            -for(let j=0;j<array[index].item.length;j++){
+            -const piatti = array[index].piatti || array[index].item || []
+            -for(let j=0;j<piatti.length;j++){
                 
-                div(class="w-full pb-4 border-b border-gray-100 last:border-b-0")  
+                div(class="w-full pb-3 mb-4 border-b border-gray-200 last:border-b-0")  
                     div(class="flex items-start justify-between")
                         div(class="grow pr-3")
                             div(class="flex items-start justify-between")
                                 // ✅ Campi vtn-backend diretti
-                                h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl")=array[index].item[j].nome || array[index].item[j].piatto || array[index].item[j].name
+                                h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl")=piatti[j].nome || piatti[j].piatto || piatti[j].name
                                 div(class="ml-4 flex flex-col items-end")
-                                    if array[index].item[j].disponibile === false
+                                    if piatti[j].disponibile === false
                                         span(class="text-xs text-orange-500 font-medium bg-orange-100 px-2 py-1 rounded mb-1") Non disponibile
-                                    else if array[index].item[j].attivo === false || array[index].item[j].nascondi === true
+                                    else if piatti[j].attivo === false || piatti[j].nascondi === true
                                         span(class="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-1 rounded mb-1") Temporaneamente non disponibile
-                                    else if array[index].item[j].novita === true
+                                    else if piatti[j].novita === true
                                         span(class="text-xs text-green-500 font-medium bg-green-100 px-2 py-1 rounded mb-1") Novità!
-                            p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base mt-1")=array[index].item[j].descrizione || array[index].item[j].description
+                            p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base mt-1")=piatti[j].descrizione || piatti[j].description
+                            
+                            // ✅ Badge per caratteristiche del piatto (stesso stile di degustazione)
+                            div(class="mt-4 mb-3 flex flex-wrap gap-2")
+                                if piatti[j].glutenFree === true
+                                    span(class="inline-flex items-center rounded-md bg-green-50 px-3 py-1.5 text-xs font-medium text-green-800 ring-1 ring-inset ring-green-600/20") Gluten Free
+                                if piatti[j].noLatticini === true
+                                    span(class="inline-flex items-center rounded-md bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-800 ring-1 ring-inset ring-blue-600/20") No Latticini
+                                if piatti[j].vegan === true
+                                    span(class="inline-flex items-center rounded-md bg-purple-50 px-3 py-1.5 text-xs font-medium text-purple-800 ring-1 ring-inset ring-purple-600/20") Vegan
+                                if piatti[j].noUovo === true
+                                    span(class="inline-flex items-center rounded-md bg-orange-50 px-3 py-1.5 text-xs font-medium text-orange-800 ring-1 ring-inset ring-orange-600/20") No Uovo
                             
                             // ✅ Tutti i nuovi campi vtn-backend
-                            if array[index].item[j].allergeni && array[index].item[j].allergeni.length > 0
+                            if piatti[j].allergeni && piatti[j].allergeni.length > 0
                                 div(class="mt-2")
                                     span(class="text-xs text-red-500 font-medium") ⚠️ Allergeni: 
-                                    span(class="text-xs text-red-500")=array[index].item[j].allergeni.join(', ')
+                                    span(class="text-xs text-red-500")=piatti[j].allergeni.map(a => typeof a === 'object' ? a.nome : a).join(', ')
                             
-                            if array[index].item[j].categoria
+                            if piatti[j].categoria
                                 div(class="mt-1")
                                     span(class="text-xs text-blue-500 font-medium") 📂 Categoria: 
-                                    span(class="text-xs text-blue-500")=array[index].item[j].categoria
+                                    span(class="text-xs text-blue-500")=piatti[j].categoria
                             
-                            if array[index].item[j].ingredienti && array[index].item[j].ingredienti.length > 0
+                            if piatti[j].ingredienti && piatti[j].ingredienti.length > 0
                                 div(class="mt-1")
                                     span(class="text-xs text-green-500 font-medium") 🥘 Ingredienti: 
-                                    span(class="text-xs text-green-500")=array[index].item[j].ingredienti.join(', ')
+                                    span(class="text-xs text-green-500")=piatti[j].ingredienti.join(', ')
                             
-                            if array[index].item[j].note_chef
+                            if piatti[j].note_chef
                                 div(class="mt-1")
                                     span(class="text-xs text-purple-500 font-medium") 👨‍🍳 Note Chef: 
-                                    span(class="text-xs text-purple-500")=array[index].item[j].note_chef
+                                    span(class="text-xs text-purple-500")=piatti[j].note_chef
                             
-                            if array[index].item[j].preparazione
+                            if piatti[j].preparazione
                                 div(class="mt-1")
                                     span(class="text-xs text-indigo-500 font-medium") ⏱️ Preparazione: 
-                                    span(class="text-xs text-indigo-500")=array[index].item[j].preparazione
+                                    span(class="text-xs text-indigo-500")=piatti[j].preparazione
                         div(class="flex-none ml-4")
-                            p(class="font-nunito text-left text-nero font-semibold text-base lg:text-lg")=(array[index].item[j].prezzo || array[index].item[j].price)+'€'
+                            p(class="font-nunito text-left text-nero font-semibold text-base lg:text-lg")=(piatti[j].prezzo || piatti[j].price)+'€'
             -}     
     -}
 
