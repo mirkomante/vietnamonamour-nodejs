@@ -33,9 +33,13 @@ mixin menu_business_lunch(array)
                                 
                                 // ✅ Tutti i nuovi campi vtn-backend
                                 if piatti[j].allergeni && piatti[j].allergeni.length > 0
-                                    div(class="mt-2")
-                                        span(class="text-xs text-red-500 font-medium") ⚠️ Allergeni: 
-                                        span(class="text-xs text-red-500")=piatti[j].allergeni.map(a => a.nome).join(', ')
+                                    div(class="mt-6 mb-4")
+                                        span(class="text-xs text-gray-600 font-medium mb-2 block") Allergeni:
+                                        div(class="flex flex-wrap gap-1")
+                                            -for(let k=0;k<piatti[j].allergeni.length;k++){
+                                                span(class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-800 ring-1 ring-inset ring-red-600/20")=piatti[j].allergeni[k].nome
+                                            -}
+                                        div(class="w-full mt-4")
                                 
                                 if piatti[j].categoria
                                     div(class="mt-1")
@@ -65,10 +69,10 @@ mixin menu_business_lunch(array)
                 if array[index].allergeni && array[index].allergeni.length > 0
                     div(class="w-full pl-2 pt-4 mt-6")
                         div(class="flex items-center mb-3")
-                            span(class="text-sm font-medium text-marrone-400") ⚠️ Allergeni presenti nel menù:
+                            span(class="text-sm font-medium text-marrone-400") Allergeni presenti nel menù:
                         div(class="flex flex-wrap gap-2")
                             -for(let k=0;k<array[index].allergeni.length;k++){
-                                span(class="inline-flex items-center rounded-md bg-yellow-50 px-3 py-1.5 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20")=array[index].allergeni[k].nome
+                                span(class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-800 ring-1 ring-inset ring-red-600/20")=array[index].allergeni[k].nome
                             -}
                         div(class="w-full border-b border-gray-200 mt-4")
                 

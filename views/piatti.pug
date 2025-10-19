@@ -43,7 +43,7 @@ mixin menu_piatti(array)
                             // ✅ Allergeni come badge - Stile precedente con linea separatrice
                             if array[index].piatti[j].allergeni && array[index].piatti[j].allergeni.length > 0
                                 div(class="mt-6 mb-4")
-                                    span(class="text-xs text-gray-600 font-medium mb-2 block") ⚠️ Allergeni:
+                                    span(class="text-xs text-gray-600 font-medium mb-2 block") Allergeni:
                                     div(class="flex flex-wrap gap-1")
                                         -for(let k=0;k<array[index].piatti[j].allergeni.length;k++){
                                             span(class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-800 ring-1 ring-inset ring-red-600/20")=array[index].piatti[j].allergeni[k].nome
