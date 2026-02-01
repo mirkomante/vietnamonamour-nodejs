@@ -68,7 +68,7 @@ mixin menu_dolci(array)
 block content
     main(class="w-full px-4 md:w-[48rem] lg:w-[56rem] md:mx-auto")
         nav(class="w-full grid-rows-6 pt-4")
-            a(href="/" class="")
+            a(href=(result.backUrl || '/') class="")
                 p(class="font-nunito text-left text-marrone-400 font-extralight text-2xl lg:text-4xl") < Indietro
         section(class="w-full grid-rows-6 py-9")
             div(class="w-full py-3")

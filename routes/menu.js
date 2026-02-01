@@ -55,6 +55,27 @@ router.get('/', async (req,res)=>{
     });
 });
 
+router.get('/menu-speciali', async (req,res)=>{
+    
+    const   result              = new Object();
+            result.file_path    = file_path
+
+    result.index = [
+        
+        {label:'Menu di San Valentino',link:'/san-valentino?from=/menu-speciali',icon:'<svg class="w-full h-8 fill-marrone-400 menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title" aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink"><title>Hearts</title><desc>A line styled icon from Orion Icon Library.</desc><path data-name="layer2" d="M46.7 29.3A24.5 24.5 0 0 0 50 17.2 12.1 12.1 0 0 0 38 5a12.9 12.9 0 0 0-12 8.1A12.9 12.9 0 0 0 14 5 12.1 12.1 0 0 0 2 17.2c0 11.4 8.8 22 24 31.8l3.7-2.5" fill="none" stroke="#202020" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path><path data-name="layer1" d="M53 27a9.7 9.7 0 0 0-9 5.9 9.7 9.7 0 0 0-9-5.9 8.9 8.9 0 0 0-9 8.9c0 8.3 6.6 16 18 23.1 11.4-7.1 18-14.8 18-23.1a8.9 8.9 0 0 0-9-8.9z" fill="none" stroke="#202020" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path></svg>'},
+        {label:'Bevande',link:'/bevande?from=/menu-speciali',icon:'<svg class="w-full h-8 fill-marrone-400 menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="Bevande" aria-describedby="lista bevande" role="img" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M43 34.5a20 20 0 1 0-34 .1"></path><circle cx="26" cy="20" r="2"></circle><path d="M26 24c12 0 24 16.8 24 28 0 6-3.4 8-8 8H10c-5.1 0-8-2-8-8 0-10.9 12-28 24-28zm16.5 10H9.4"></path><path d="M45.2 37.6L56 32l6 4-13 10"></path></svg>'},
+        {label:'I nostri vini',link:'/vini?from=/menu-speciali',icon:'<svg class="w-full h-8 fill-marrone-400 menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="I nostri vini" aria-describedby="lista dei vini" role="img" xmlns:xlink="http://www.w3.org/1999/xlink"><path data-name="layer2" d="M22 52v7c0 1.7 1.7 3 7.6 3h4.7c6.3 0 7.6-1.3 7.6-3v-7m.1-22v-2c0-6-6-12-6-16m-8 0c0 4-6 10-6 16v2"></path><path data-name="layer1" d="M28 2h8v10h-8zm-6 28h20v22.01H22z"></path></svg>'},
+        {label:'I nostri distillati',link:'/distillati?from=/menu-speciali',icon:'<svg class="w-full h-8 fill-marrone-400 menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="distillati" aria-describedby="lista distillati" role="img" xmlns:xlink="http://www.w3.org/1999/xlink"><path data-name="layer2" d="M20 62h24M32 46v16m21.9-34C53.1 17 46 2 46 2H18s-7.1 14.3-7.9 26"></path><path data-name="layer1" d="M10.1 28c0 .7-.1 1.4-.1 2 0 11.1 10.1 16 22 16s22-4.9 22-16c0-.7 0-1.3-.1-2z"></path></svg>'}
+      ]
+
+    result.pageTitle = 'Vietnamonamour Speciale San Valentino';
+    result.headerTitle = 'Speciale San Valentino';
+
+    res.render('index',{
+        result: result
+    });
+});
+
 
 router.get('/degustazione', async (req,res)=>{
     
@@ -99,7 +120,61 @@ router.get('/degustazione', async (req,res)=>{
         result.menu = [];
     }
 
+    result.backUrl = req.query.from || req.query.backUrl || null;
     res.render('degustazione',{
+        result: result
+    });
+
+})
+
+router.get('/san-valentino', async (req,res)=>{
+
+    const   result              = new Object();
+            result.file_path    = file_path
+
+    result.pagina   = {label:'Speciale San Valentino',link:'/san-valentino',icon:'<svg class="w-full h-8 fill-marrone-400 menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title" aria-describedby="desc" role="img" xmlns:xlink="http://www.w3.org/1999/xlink"><title>Hearts</title><desc>A line styled icon from Orion Icon Library.</desc><path data-name="layer2" d="M46.7 29.3A24.5 24.5 0 0 0 50 17.2 12.1 12.1 0 0 0 38 5a12.9 12.9 0 0 0-12 8.1A12.9 12.9 0 0 0 14 5 12.1 12.1 0 0 0 2 17.2c0 11.4 8.8 22 24 31.8l3.7-2.5" fill="none" stroke="#202020" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path><path data-name="layer1" d="M53 27a9.7 9.7 0 0 0-9 5.9 9.7 9.7 0 0 0-9-5.9 8.9 8.9 0 0 0-9 8.9c0 8.3 6.6 16 18 23.1 11.4-7.1 18-14.8 18-23.1a8.9 8.9 0 0 0-9-8.9z" fill="none" stroke="#202020" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path></svg>'};
+    result.menu     = new Array();
+
+    result.servizi = await getServiziData();
+
+    try {
+        console.log('🔄 Recupero dati San Valentino da vtn-backend...');
+        const vtnData = await vtnApiService.getMenuSanValentino();
+
+        if (vtnData && vtnData.nome) {
+            result.pagina.label = vtnData.nome;
+        }
+        if (vtnData && vtnData.descrizione) {
+            result.pagina.descrizione = vtnData.descrizione;
+        }
+
+        // Normalizza la risposta GET /api/v1/menu-fisso/{id}: un menu con piatti[] dove ogni elemento ha .piatto
+        const rawPiatti = (vtnData && vtnData.piatti) || [];
+        const piatti = rawPiatti.map((p) => {
+            const pt = p.piatto || p;
+            return {
+                ...pt,
+                nome: pt.nome,
+                descrizione: pt.descrizione,
+                prezzo: pt.prezzo,
+                categoria: (pt.categoria && (typeof pt.categoria === 'string' ? pt.categoria : pt.categoria.nome)) || null
+            };
+        });
+        result.menu = [{
+            nome: vtnData.nome,
+            descrizione: vtnData.descrizione,
+            prezzo: vtnData.prezzo,
+            piatti
+        }];
+        console.log('✅ Dati San Valentino recuperati da vtn-backend');
+
+    } catch (error) {
+        console.error('❌ Errore nel recupero dati San Valentino:', error.message);
+        result.menu = [];
+    }
+
+    result.backUrl = req.query.from || req.query.backUrl || '/menu-speciali';
+    res.render('san-valentino',{
         result: result
     });
 
@@ -148,6 +223,7 @@ router.get('/business-lunch', async (req,res)=>{
         result.menu = [];
     }
 
+    result.backUrl = req.query.from || req.query.backUrl || null;
     res.render('business-lunch',{
         result: result
     });
@@ -182,6 +258,7 @@ router.get('/carta', async (req,res)=>{
         result.menu = [];
     }
 
+    result.backUrl = req.query.from || req.query.backUrl || null;
     res.render('piatti',{
         result: result
     });
@@ -216,6 +293,7 @@ router.get('/dolci', async (req,res)=>{
         result.menu = [];
     }
 
+    result.backUrl = req.query.from || req.query.backUrl || null;
     res.render('dolci',{
         result: result
     });
@@ -250,6 +328,7 @@ router.get('/bevande', async (req,res)=>{
         result.menu = [];
     }
 
+    result.backUrl = req.query.from || req.query.backUrl || null;
     res.render('bevande',{
         result: result
     });
@@ -283,7 +362,8 @@ router.get('/vini', async (req,res)=>{
         console.error('❌ Errore nel recupero vini:', error.message);
         result.menu = [];
     }
-    
+
+    result.backUrl = req.query.from || req.query.backUrl || null;
     res.render('vini',{
         result: result
     });
@@ -318,6 +398,7 @@ router.get('/distillati', async (req,res)=>{
         result.menu = [];
     }
 
+    result.backUrl = req.query.from || req.query.backUrl || null;
     res.render('distillati',{
         result: result
     });

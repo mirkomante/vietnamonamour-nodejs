@@ -39,6 +39,9 @@ class VtnApiService {
             },
             (error) => {
                 console.error(`❌ VTN API Response Error: ${error.response?.status || 'Network Error'} ${error.config?.url}`);
+                if (error.response?.data) {
+                    console.error('Response body:', JSON.stringify(error.response.data, null, 2));
+                }
                 return Promise.reject(error);
             }
         );
@@ -81,6 +84,23 @@ class VtnApiService {
             } catch (error) {
                 console.error('❌ Errore nel recupero business lunch:', error.message);
                 throw new Error(`Impossibile recuperare business lunch: ${error.message}`);
+            }
+        }
+
+        async getMenuSanValentino() {
+            try {
+                console.log('🍽️ Recupero menu San Valentino da vtn-backend...');
+                const menuId = this.config.CATEGORY_IDS.SAN_VALENTINO;
+                const response = await this.client.get(`/api/v1/menu-fisso/${menuId}`);
+
+                if (response.data && response.data.success && response.data.data) {
+                    return response.data.data;
+                } else {
+                    throw new Error('Struttura dati non valida da vtn-backend');
+                }
+            } catch (error) {
+                console.error('❌ Errore nel recupero menu San Valentino:', error.message);
+                throw new Error(`Impossibile recuperare menu San Valentino: ${error.message}`);
             }
         }
 
