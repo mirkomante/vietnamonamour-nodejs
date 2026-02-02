@@ -16,6 +16,11 @@ const   file_path       = currentConfig.FILE_PATH,
 const   express     = require('express'),
         router      = express.Router();
 
+// Footer alternativo (senza blocco Servizi) quando si arriva da /menu-speciali
+router.use((req, res, next) => {
+    res.locals.footerNoServizi = (req.query.from === '/menu-speciali');
+    next();
+});
 
 // ========================================
 // FUNZIONE HELPER PER RECUPERARE SERVIZI
