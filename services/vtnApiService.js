@@ -104,6 +104,23 @@ class VtnApiService {
             }
         }
 
+        async getMenuSanValentinoVegetariano() {
+            try {
+                console.log('🍽️ Recupero menu San Valentino Vegetariano da vtn-backend...');
+                const menuId = this.config.CATEGORY_IDS.SAN_VALENTINO_VEGETARIANO;
+                const response = await this.client.get(`/api/v1/menu-fisso/${menuId}`);
+
+                if (response.data && response.data.success && response.data.data) {
+                    return response.data.data;
+                } else {
+                    throw new Error('Struttura dati non valida da vtn-backend');
+                }
+            } catch (error) {
+                console.error('❌ Errore nel recupero menu San Valentino Vegetariano:', error.message);
+                throw new Error(`Impossibile recuperare menu San Valentino Vegetariano: ${error.message}`);
+            }
+        }
+
         async getCategoriaMenuFisso(categoryId) {
             try {
                 console.log(`📋 Recupero categoria menu fisso ${categoryId} da vtn-backend...`);

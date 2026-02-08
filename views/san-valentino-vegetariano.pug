@@ -1,0 +1,77 @@
+extends menu.pug
+
+block content
+    main(class="w-full px-4 md:w-[48rem] lg:w-[56rem] md:mx-auto")
+        nav(class="w-full grid-rows-6 pt-4")
+            a(href="/menu-speciali")
+                p(class="font-nunito text-left text-marrone-400 font-extralight text-2xl lg:text-4xl") < Indietro
+        
+        section(class="w-full grid-rows-6 py-9")
+            //- Header con cuore e titolo
+            div(class="w-full py-3")
+                div(class="w-full grid grid-cols-12 gap-0 border-marrone-100 border-b")
+                    figure(class="col-span-2 pr-2 flex items-center justify-center")
+                        svg(width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg")
+                            path(d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#c41e3a")
+                    div(class="col-span-10")
+                        p(class="font-nunito text-left text-marrone-400 font-extralight text-2xl lg:text-4xl") Menu di San Valentino Vegetariano
+                        div(class="pb-4")
+
+            //- Contenuto menu
+            article(class="w-full py-6 pt-8 mb-8")
+                //- Intro Prosecco
+                header(class="w-full pb-4")
+                    p(class="font-nunito text-center text-marrone-400 font-light italic text-sm lg:text-base") Un calice di Prosecco per iniziare...
+
+                //- ANTIPASTI
+                div(class="w-full pt-6")
+                    h2(class="font-nunito text-left text-arancio font-extralight text-2xl lg:text-4xl border-b border-marrone-100 pb-2 mb-4") Antipasti
+
+                    div(class="w-full pl-2 py-2")
+                        div(class="flex items-start justify-between")
+                            div(class="flex-1")
+                                h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl") Due rouleaux primaverili
+                                p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base") Involtini con sfoglia di riso con noodles di riso verdure e erbe
+
+                    div(class="w-full pl-2 py-2")
+                        div(class="flex items-start justify-between")
+                            div(class="flex-1")
+                                h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl") Tre nem veg
+                                p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base") Involtini croccanti con farcitura vegetariana
+
+                //- PIATTI PRINCIPALI
+                div(class="w-full pt-6")
+                    h2(class="font-nunito text-left text-arancio font-extralight text-2xl lg:text-4xl border-b border-marrone-100 pb-2 mb-4") Piatti principali
+
+                    div(class="w-full pl-2 py-2")
+                        div(class="flex items-start justify-between")
+                            div(class="flex-1")
+                                h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl") Bun vegetariano
+                                p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base") Noodles di riso saltati nel wok con verdure ed erbe
+
+                    div(class="w-full pl-2 py-2")
+                        div(class="flex items-start justify-between")
+                            div(class="flex-1")
+                                h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl") Coccio di verdure
+                                p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base") Terracotta con verdure latte di cocco curry e riso profumato
+
+                //- DOLCE
+                div(class="w-full pt-6")
+                    h2(class="font-nunito text-left text-arancio font-extralight text-2xl lg:text-4xl border-b border-marrone-100 pb-2 mb-4") Dolce
+
+                    div(class="w-full pl-2 py-2")
+                        div(class="flex items-start justify-between")
+                            div(class="flex-1")
+                                h3(class="font-nunito font-medium text-marrone-400 text-base lg:text-xl") Banh xeo
+                                p(class="font-nunito font-light text-grigio-200 text-xs lg:text-base") Crepe di riso e latte di cocco con gelato al mango
+
+                //- Info e prezzo
+                div(class="w-full pt-8 mt-4 border-t border-marrone-100")
+                    div(class="w-full flex items-center justify-between mb-4")
+                        div(class="grow")
+                            p(class="font-nunito text-left text-marrone-400 font-extralight text-sm lg:text-base") Acqua e coperto inclusi
+                        div(class="flex-none")
+                            p(class="font-nunito text-left text-nero font-semibold text-base lg:text-lg") 60€
+                    
+                    p(class="font-nunito text-left text-grigio-200 text-xs lg:text-sm mb-2") Vini esclusi
+                    p(class="font-nunito text-left text-grigio-200 text-xs lg:text-sm mb-2") Il menù è 100% vegetariano, gluten free e latticini free, escluso il gelato al mango
