@@ -4,7 +4,7 @@ mixin menu_index(array)
     -for(let index=0;index<array.length;index++){
         div(class="w-full py-3")
             a(href=array[index].link class="")
-                div(class="w-full grid grid-cols-12 gap-0 items-center h-12 border-marrone-100 border-b")
+                div(class="w-full grid grid-cols-12 gap-0 items-center min-h-12 py-2 border-marrone-100 border-b")
                     figure(class=" col-span-2 pr-2")!=array[index].icon
                         
                     div(class="col-span-9")
